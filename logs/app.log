@@ -1,0 +1,108 @@
+2026-07-19 22:28:21.473 | INFO     | __main__:main:5 - Iniciando Motor Inteligente para Inventarios
+2026-07-19 22:28:21.473 | INFO     | __main__:main:7 - Configuración cargada correctamente
+2026-07-19 22:28:21.474 | WARNING  | __main__:main:9 - Este es un mensaje de advertencia
+2026-07-19 22:28:21.474 | ERROR    | __main__:main:11 - Este es un ejemplo de error
+2026-07-19 22:28:21.474 | SUCCESS  | __main__:main:13 - Sistema iniciado correctamente
+2026-07-20 00:57:36.339 | SUCCESS  | __main__:main:11 - Conexion con PostgreSQL establecida correctamente
+2026-07-21 03:37:18.394 | ERROR    | __main__:main:14 - 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+Traceback (most recent call last):
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+
+  File "D:\Programando-2025\motor_inventario\app\main.py", line 17, in <module>
+    main()
+    └ <function main at 0x000002B483106E80>
+
+> File "D:\Programando-2025\motor_inventario\app\main.py", line 8, in main
+    with engine.connect() as connection:
+         │      └ <function Engine.connect at 0x000002B4866CEC00>
+         └ Engine(postgresql+psycopg2://postgres:***@localhost:5432/motor_inventario)
+
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           │    │               └ Engine(postgresql+psycopg2://postgres:***@localhost:5432/motor_inventario)
+           │    └ <class 'sqlalchemy.engine.base.Connection'>
+           └ Engine(postgresql+psycopg2://postgres:***@localhost:5432/motor_inventario)
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+    │                        │      └ <function Engine.raw_connection at 0x000002B4866CECA0>
+    │                        └ Engine(postgresql+psycopg2://postgres:***@localhost:5432/motor_inventario)
+    └ <sqlalchemy.engine.base.Connection object at 0x000002B48685F230>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           │    │    └ <function Pool.connect at 0x000002B485A845E0>
+           │    └ <sqlalchemy.pool.impl.QueuePool object at 0x000002B48685E660>
+           └ Engine(postgresql+psycopg2://postgres:***@localhost:5432/motor_inventario)
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           │                │         └ <sqlalchemy.pool.impl.QueuePool object at 0x000002B48685E660>
+           │                └ <classmethod(<function _ConnectionFairy._checkout at 0x000002B485A86840>)>
+           └ <class 'sqlalchemy.pool.base._ConnectionFairy'>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            │                 │        └ <sqlalchemy.pool.impl.QueuePool object at 0x000002B48685E660>
+            │                 └ <classmethod(<function _ConnectionRecord.checkout at 0x000002B485A85260>)>
+            └ <class 'sqlalchemy.pool.base._ConnectionRecord'>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 712, in checkout
+    rec = pool._do_get()
+          │    └ <function QueuePool._do_get at 0x000002B485A90680>
+          └ <sqlalchemy.pool.impl.QueuePool object at 0x000002B48685E660>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\pool\impl.py", line 178, in _do_get
+    with util.safe_reraise():
+         │    └ <class 'sqlalchemy.util.langhelpers.safe_reraise'>
+         └ <module 'sqlalchemy.util' from 'D:\\Programando-2025\\motor_inventario\\.venv\\Lib\\site-packages\\sqlalchemy\\util\\__init__...
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+          │         │              └ <traceback object at 0x000002B4869A2140>
+          │         └ <method 'with_traceback' of 'BaseException' objects>
+          └ UnicodeDecodeError('utf-8', b'connection to server at "localhost" (::1), port 5432 failed: FATAL:  no existe la base de datos...
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\pool\impl.py", line 176, in _do_get
+    return self._create_connection()
+           │    └ <function Pool._create_connection at 0x000002B485A84360>
+           └ <sqlalchemy.pool.impl.QueuePool object at 0x000002B48685E660>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 389, in _create_connection
+    return _ConnectionRecord(self)
+           │                 └ <sqlalchemy.pool.impl.QueuePool object at 0x000002B48685E660>
+           └ <class 'sqlalchemy.pool.base._ConnectionRecord'>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 674, in __init__
+    self.__connect()
+    └ <sqlalchemy.pool.base._ConnectionRecord object at 0x000002B4830C1850>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         │    └ <class 'sqlalchemy.util.langhelpers.safe_reraise'>
+         └ <module 'sqlalchemy.util' from 'D:\\Programando-2025\\motor_inventario\\.venv\\Lib\\site-packages\\sqlalchemy\\util\\__init__...
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+          │         │              └ <traceback object at 0x000002B4856EA4C0>
+          │         └ <method 'with_traceback' of 'BaseException' objects>
+          └ UnicodeDecodeError('utf-8', b'connection to server at "localhost" (::1), port 5432 failed: FATAL:  no existe la base de datos...
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+    │    │                               │    │               └ <sqlalchemy.pool.base._ConnectionRecord object at 0x000002B4830C1850>
+    │    │                               │    └ <function create_engine.<locals>.connect at 0x000002B4867A3BA0>
+    │    │                               └ <sqlalchemy.pool.impl.QueuePool object at 0x000002B48685E660>
+    │    └ <member 'dbapi_connection' of '_ConnectionRecord' objects>
+    └ <sqlalchemy.pool.base._ConnectionRecord object at 0x000002B4830C1850>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           │       │        │            └ immutabledict({'host': 'localhost', 'dbname': 'motor_inventario', 'user': 'postgres', 'password': 'Katia0207', 'port': 5432})
+           │       │        └ []
+           │       └ <function DefaultDialect.connect at 0x000002B4867C5C60>
+           └ <sqlalchemy.dialects.postgresql.psycopg2.PGDialect_psycopg2 object at 0x000002B48685E270>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           │    │            │        │        └ {'host': 'localhost', 'dbname': 'motor_inventario', 'user': 'postgres', 'password': 'Katia0207', 'port': 5432}
+           │    │            │        └ ()
+           │    │            └ <function connect at 0x000002B48693ACA0>
+           │    └ <module 'psycopg2' from 'D:\\Programando-2025\\motor_inventario\\.venv\\Lib\\site-packages\\psycopg2\\__init__.py'>
+           └ <sqlalchemy.dialects.postgresql.psycopg2.PGDialect_psycopg2 object at 0x000002B48685E270>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           │        │                       │                     └ {}
+           │        │                       └ None
+           │        └ 'host=localhost dbname=motor_inventario user=postgres password=Katia0207 port=5432'
+           └ <built-in function _connect>
+
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
+2026-07-21 03:45:09.855 | SUCCESS  | __main__:main:11 - Conexion con PostgreSQL establecida correctamente
