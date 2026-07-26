@@ -12,6 +12,8 @@ LOG_DIR.mkdir(exist_ok=True)
 # Eliminar la configuración por defecto
 logger.remove()
 
+logger.info("Motor inteligente de Inventario iniciado")
+
 # Mostrar logs en la consola
 logger.add(
     sys.stderr,
@@ -31,5 +33,9 @@ logger.add(
     compression="zip",
     level=settings.LOG_LEVEL,
     encoding="utf-8",
-    enqueue=True
+    enqueue=True,
+    backtrace=True,
+    diagnose=True,
 )
+
+__all__ = ["logger"]

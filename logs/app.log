@@ -106,3 +106,6 @@ Traceback (most recent call last):
 
 UnicodeDecodeError: 'utf-8' codec can't decode byte 0xab in position 96: invalid start byte
 2026-07-21 03:45:09.855 | SUCCESS  | __main__:main:11 - Conexion con PostgreSQL establecida correctamente
+2026-07-21 19:30:05.982 | SUCCESS  | __main__:main:11 - Conexion con PostgreSQL establecida correctamente
+2026-07-26 08:38:26.253 | INFO     | app.modules.catalogo.services.catalogo_service:actualizar_producto:134 - Actualizando producto ID 1
+2026-07-26 08:38:26.355 | SUCCESS  | app.modules.catalogo.services.catalogo_service:actualizar_producto:138 - Producto P000001 actualizado correctamente
