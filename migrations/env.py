@@ -11,6 +11,8 @@ from app.modules.catalogo.models.producto import Producto
 from app.modules.catalogo.models.proveedor import Proveedor
 from app.modules.catalogo.models.marca import Marca
 from app.modules.catalogo.models.unidad_medida import UnidadMedida
+from app.modules.inventario.models.inventario import Inventario
+from app.modules.inventario.models.movimiento_inventario import MovimientoInventario
 
 
 # this is the Alembic Config object, which provides

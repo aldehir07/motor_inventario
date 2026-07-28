@@ -109,3 +109,157 @@ UnicodeDecodeError: 'utf-8' codec can't decode byte 0xab in position 96: invalid
 2026-07-21 19:30:05.982 | SUCCESS  | __main__:main:11 - Conexion con PostgreSQL establecida correctamente
 2026-07-26 08:38:26.253 | INFO     | app.modules.catalogo.services.catalogo_service:actualizar_producto:134 - Actualizando producto ID 1
 2026-07-26 08:38:26.355 | SUCCESS  | app.modules.catalogo.services.catalogo_service:actualizar_producto:138 - Producto P000001 actualizado correctamente
+2026-07-28 10:43:10.501 | INFO     | app.modules.inventario.services.inventario_service:registrar_entrada:32 - Registrando entrada. Producto=1, Cantidad=20
+2026-07-28 10:43:11.118 | ERROR    | app.modules.inventario.services.inventario_service:registrar_entrada:78 - Error registrando entrada: (psycopg2.errors.UndefinedTable) no existe la relación «inventarios»
+LINE 2: FROM inventarios 
+             ^
+
+[SQL: SELECT inventarios.producto_id, inventarios.stock_actual, inventarios.stock_reservado, inventarios.id, inventarios.fecha_creacion, inventarios.fecha_actualizacion 
+FROM inventarios 
+WHERE inventarios.producto_id = %(producto_id_1)s]
+[parameters: {'producto_id_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    │    │       └ <function DefaultDialect.do_execute at 0x000001BD826DACA0>
+    │    └ <sqlalchemy.dialects.postgresql.psycopg2.PGDialect_psycopg2 object at 0x000001BD82B596A0>
+    └ <sqlalchemy.engine.base.Connection object at 0x000001BD83073230>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    │      │       │          └ {'producto_id_1': 1}
+    │      │       └ 'SELECT inventarios.producto_id, inventarios.stock_actual, inventarios.stock_reservado, inventarios.id, inventarios.fecha_cre...
+    │      └ <method 'execute' of 'psycopg2.extensions.cursor' objects>
+    └ <cursor object at 0x000001BD8310A260; closed: -1>
+
+psycopg2.errors.UndefinedTable: no existe la relación «inventarios»
+LINE 2: FROM inventarios 
+             ^
+
+
+
+The above exception was the direct cause of the following exception:
+
+
+Traceback (most recent call last):
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+
+  File "D:\Programando-2025\motor_inventario\scripts\registrar_entrada.py", line 35, in <module>
+    main()
+    └ <function main at 0x000001BDFF1B76A0>
+
+  File "D:\Programando-2025\motor_inventario\scripts\registrar_entrada.py", line 15, in main
+    inventario = service.registrar_entrada(
+                 │       └ <function InventarioService.registrar_entrada at 0x000001BD83100220>
+                 └ <app.modules.inventario.services.inventario_service.InventarioService object at 0x000001BD83072E40>
+
+> File "D:\Programando-2025\motor_inventario\app\modules\inventario\services\inventario_service.py", line 37, in registrar_entrada
+    inventario = self.inventario_repository.get_by_producto_id(
+                 │    │                     └ <function InventarioRepository.get_by_producto_id at 0x000001BD830DFB00>
+                 │    └ <app.modules.inventario.repositories.inventario_repository.InventarioRepository object at 0x000001BD83072F90>
+                 └ <app.modules.inventario.services.inventario_service.InventarioService object at 0x000001BD83072E40>
+
+  File "D:\Programando-2025\motor_inventario\app\modules\inventario\repositories\inventario_repository.py", line 23, in get_by_producto_id
+    return self.session.scalar(stmt)
+           │    │       │      └ <sqlalchemy.sql.selectable.Select object at 0x000001BD82F7CE10>
+           │    │       └ <function Session.scalar at 0x000001BD8299B920>
+           │    └ <sqlalchemy.orm.session.Session object at 0x000001BD83072BA0>
+           └ <app.modules.inventario.repositories.inventario_repository.InventarioRepository object at 0x000001BD83072F90>
+
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2421, in scalar
+    return self._execute_internal(
+           │    └ <function Session._execute_internal at 0x000001BD8299B420>
+           └ <sqlalchemy.orm.session.Session object at 0x000001BD83072BA0>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2271, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                   │      │                 └ <classmethod(<function AbstractORMCompileState.orm_execute_statement at 0x000001BD828114E0>)>
+                   │      └ <class 'sqlalchemy.orm.context.ORMSelectCompileState'>
+                   └ typing.Any
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+             │    └ <function Connection.execute at 0x000001BD825DBF60>
+             └ <sqlalchemy.engine.base.Connection object at 0x000001BD83073230>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+           └ <bound method ClauseElement._execute_on_connection of <sqlalchemy.sql.selectable.Select object at 0x000001BD82F7CE10>>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           │          └ <function Connection._execute_clauseelement at 0x000001BD825E42C0>
+           └ <sqlalchemy.engine.base.Connection object at 0x000001BD83073230>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          │    └ <function Connection._execute_context at 0x000001BD825E44A0>
+          └ <sqlalchemy.engine.base.Connection object at 0x000001BD83073230>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           │    └ <function Connection._exec_single_context at 0x000001BD825E4540>
+           └ <sqlalchemy.engine.base.Connection object at 0x000001BD83073230>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+    │    └ <function Connection._handle_dbapi_exception at 0x000001BD825E47C0>
+    └ <sqlalchemy.engine.base.Connection object at 0x000001BD83073230>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+          │                    │              │                 └ UndefinedTable('no existe la relación «inventarios»\nLINE 2: FROM inventarios \n             ^\n')
+          │                    │              └ (<class 'psycopg2.errors.UndefinedTable'>, UndefinedTable('no existe la relación «inventarios»\nLINE 2: FROM inventarios \n  ...
+          │                    └ <method 'with_traceback' of 'BaseException' objects>
+          └ ProgrammingError('(psycopg2.errors.UndefinedTable) no existe la relación «inventarios»\nLINE 2: FROM inventarios \n          ...
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+    │    │       └ <function DefaultDialect.do_execute at 0x000001BD826DACA0>
+    │    └ <sqlalchemy.dialects.postgresql.psycopg2.PGDialect_psycopg2 object at 0x000001BD82B596A0>
+    └ <sqlalchemy.engine.base.Connection object at 0x000001BD83073230>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    │      │       │          └ {'producto_id_1': 1}
+    │      │       └ 'SELECT inventarios.producto_id, inventarios.stock_actual, inventarios.stock_reservado, inventarios.id, inventarios.fecha_cre...
+    │      └ <method 'execute' of 'psycopg2.extensions.cursor' objects>
+    └ <cursor object at 0x000001BD8310A260; closed: -1>
+
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) no existe la relación «inventarios»
+LINE 2: FROM inventarios 
+             ^
+
+[SQL: SELECT inventarios.producto_id, inventarios.stock_actual, inventarios.stock_reservado, inventarios.id, inventarios.fecha_creacion, inventarios.fecha_actualizacion 
+FROM inventarios 
+WHERE inventarios.producto_id = %(producto_id_1)s]
+[parameters: {'producto_id_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-07-28 10:59:01.537 | INFO     | app.modules.inventario.services.inventario_service:registrar_entrada:32 - Registrando entrada. Producto=1, Cantidad=20
+2026-07-28 10:59:01.635 | INFO     | app.modules.inventario.services.inventario_service:registrar_entrada:65 - Registrando entrada de inventario. Producto=1, Cantidad=20
+2026-07-28 10:59:01.644 | SUCCESS  | app.modules.inventario.services.inventario_service:registrar_entrada:72 - Entrada registrada. Inventario=1, Stock=20
+2026-07-28 12:38:20.930 | INFO     | app.modules.inventario.services.inventario_service:registrar_salida:140 - Registrando salida. Producto=1, Cantidad=5
+2026-07-28 12:38:20.947 | SUCCESS  | app.modules.inventario.services.inventario_service:registrar_salida:180 - Salida registrada correctamente. Producto=1, Stock=15
+2026-07-28 12:39:06.766 | INFO     | app.modules.inventario.services.inventario_service:registrar_salida:140 - Registrando salida. Producto=1, Cantidad=500
+2026-07-28 12:39:06.771 | ERROR    | app.modules.inventario.services.inventario_service:registrar_salida:190 - Error registrando salida: Stock insuficiente. Disponible: 15, solicitado: 500.
+Traceback (most recent call last):
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+
+  File "D:\Programando-2025\motor_inventario\scripts\registrar_salida.py", line 35, in <module>
+    main()
+    └ <function main at 0x00000151F3E476A0>
+
+  File "D:\Programando-2025\motor_inventario\scripts\registrar_salida.py", line 15, in main
+    inventario = service.registrar_salida(
+                 │       └ <function InventarioService.registrar_salida at 0x00000151F7D52660>
+                 └ <app.modules.inventario.services.inventario_service.InventarioService object at 0x00000151F7CCAF90>
+
+> File "D:\Programando-2025\motor_inventario\app\modules\inventario\services\inventario_service.py", line 155, in registrar_salida
+    self._validar_stock(
+    │    └ <function InventarioService._validar_stock at 0x00000151F7D52480>
+    └ <app.modules.inventario.services.inventario_service.InventarioService object at 0x00000151F7CCAF90>
+
+  File "D:\Programando-2025\motor_inventario\app\modules\inventario\services\inventario_service.py", line 51, in _validar_stock
+    raise StockInsuficienteException(disponible=stock_actual, solicitado=cantidad)
+          │                                     │                        └ 500
+          │                                     └ 15
+          └ <class 'app.modules.inventario.exceptions.stock_insuficiente_exception.StockInsuficienteException'>
+
+app.modules.inventario.exceptions.stock_insuficiente_exception.StockInsuficienteException: Stock insuficiente. Disponible: 15, solicitado: 500.
+2026-07-28 12:54:35.319 | INFO     | app.modules.inventario.services.inventario_service:ajustar_stock:197 - Ajustando stock. Producto=1, Nuevo Stock=100
+2026-07-28 12:54:35.337 | SUCCESS  | app.modules.inventario.services.inventario_service:ajustar_stock:239 - Stock ajustado correctamente. Producto=1, Stock=100
