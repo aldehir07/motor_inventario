@@ -13,7 +13,8 @@ from app.modules.catalogo.models.marca import Marca
 from app.modules.catalogo.models.unidad_medida import UnidadMedida
 from app.modules.inventario.models.inventario import Inventario
 from app.modules.inventario.models.movimiento_inventario import MovimientoInventario
-
+from app.modules.compras.models.compra import Compra
+from app.modules.compras.models.compra_detalle import CompraDetalle
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

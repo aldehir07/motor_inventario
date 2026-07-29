@@ -5,6 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.modules.base_model import BaseModel
 from app.modules.mixins import IdMixin
+from app.modules.inventario.models.movimiento_inventario import MovimientoInventario
 
 if TYPE_CHECKING:
     from app.modules.catalogo.models.producto import Producto

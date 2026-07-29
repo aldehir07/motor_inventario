@@ -1,9 +1,13 @@
 from sqlalchemy import Boolean, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from typing import TYPE_CHECKING
 
 from app.modules.base_model import BaseModel
 from app.modules.mixins import IdMixin
 from app.modules.catalogo.models.producto import Producto
+
+if TYPE_CHECKING:
+    from app.modules.compras.models.compra import Compra
 
 class Proveedor(IdMixin, BaseModel):
     __tablename__ = "proveedores"
@@ -46,6 +50,10 @@ class Proveedor(IdMixin, BaseModel):
     )
 
     productos: Mapped[list["Producto"]] = relationship(
+        back_populates="proveedor"
+    )
+
+    compras: Mapped[list["Compra"]] = relationship(
         back_populates="proveedor"
     )
 

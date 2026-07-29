@@ -14,6 +14,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.modules.base_model import BaseModel
 from app.modules.mixins import IdMixin
+from app.modules.inventario.models.inventario import Inventario
 
 if TYPE_CHECKING:
     from app.modules.catalogo.models.categoria import Categoria
@@ -109,4 +110,4 @@ class Producto(IdMixin, BaseModel):
     proveedor: Mapped["Proveedor"] = relationship(back_populates="productos")
     marca: Mapped["Marca"] = relationship(back_populates="productos")
     unidad_medida: Mapped["UnidadMedida"] = relationship(back_populates="productos")
-    inventario: Mapped["Inventario"] = relationship(back_populates="producto", uselist=False,)
+    inventario: Mapped["Inventario"] = relationship(back_populates="producto")

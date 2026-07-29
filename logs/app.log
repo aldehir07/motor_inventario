@@ -263,3 +263,39 @@ Traceback (most recent call last):
 app.modules.inventario.exceptions.stock_insuficiente_exception.StockInsuficienteException: Stock insuficiente. Disponible: 15, solicitado: 500.
 2026-07-28 12:54:35.319 | INFO     | app.modules.inventario.services.inventario_service:ajustar_stock:197 - Ajustando stock. Producto=1, Nuevo Stock=100
 2026-07-28 12:54:35.337 | SUCCESS  | app.modules.inventario.services.inventario_service:ajustar_stock:239 - Stock ajustado correctamente. Producto=1, Stock=100
+2026-07-29 11:52:16.823 | INFO     | app.modules.compras.services.compra_service:crear_compra:85 - Creando compra FAC-2026-001
+2026-07-29 11:52:16.841 | ERROR    | app.modules.compras.services.compra_service:crear_compra:139 - Error creando compra: Producto 2 no existe.
+Traceback (most recent call last):
+
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+
+  File "D:\Programando-2025\motor_inventario\scripts\crear_compra.py", line 58, in <module>
+    main()
+    └ <function main at 0x00000217712F76A0>
+
+  File "D:\Programando-2025\motor_inventario\scripts\crear_compra.py", line 21, in main
+    compra = service.crear_compra(
+             │       └ <function CompraService.crear_compra at 0x000002177529DEE0>
+             └ <app.modules.compras.services.compra_service.CompraService object at 0x00000217751FEE40>
+
+> File "D:\Programando-2025\motor_inventario\app\modules\compras\services\compra_service.py", line 104, in crear_compra
+    self._validar_producto(item.producto_id)
+    │    │                 │    └ 2
+    │    │                 └ CompraDetalleCreate(producto_id=2, cantidad=10, costo_unitario=Decimal('25.00'))
+    │    └ <function CompraService._validar_producto at 0x000002177529DBC0>
+    └ <app.modules.compras.services.compra_service.CompraService object at 0x00000217751FEE40>
+
+  File "D:\Programando-2025\motor_inventario\app\modules\compras\services\compra_service.py", line 48, in _validar_producto
+    raise NotFoundException(f"Producto {producto_id} no existe.")
+          │                             └ 2
+          └ <class 'app.shared.exceptions.not_found_exception.NotFoundException'>
+
+app.shared.exceptions.not_found_exception.NotFoundException: Producto 2 no existe.
+2026-07-29 11:58:56.163 | INFO     | app.modules.compras.services.compra_service:crear_compra:85 - Creando compra FAC-2026-001
+2026-07-29 11:58:56.562 | SUCCESS  | app.modules.compras.services.compra_service:crear_compra:133 - Compra FAC-2026-001 creando correctamente.
+2026-07-29 12:05:50.457 | INFO     | app.modules.catalogo.services.catalogo_service:crear_producto:36 - Iniciando cracion del producto 'P000002'
+2026-07-29 12:31:41.252 | INFO     | app.modules.compras.services.compra_service:confirmar_compra:179 - Confirmando compra FAC-2026-001
+2026-07-29 12:31:41.260 | INFO     | app.modules.inventario.services.inventario_service:registrar_entrada:86 - Registrando entrada. Producto=1, Cantidad=5
+2026-07-29 12:31:41.264 | SUCCESS  | app.modules.inventario.services.inventario_service:registrar_entrada:126 - Entrada registrada. Inventario=1, Stock=105
+2026-07-29 12:31:41.277 | SUCCESS  | app.modules.compras.services.compra_service:confirmar_compra:202 - Compra FAC-2026-001 confirmada correctamente.
