@@ -4,7 +4,7 @@ from datetime import date
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Date, ForeignKey, Numeric, String
+from sqlalchemy import Date, ForeignKey, Numeric, String, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.modules.base_model import BaseModel
@@ -55,11 +55,13 @@ class Compra(IdMixin, BaseModel):
     )
 
     estado: Mapped[EstadoCompra] = mapped_column(
+        Enum(EstadoCompra),
         default=EstadoCompra.BORRADOR,
         nullable=False,
     )
 
     proveedor: Mapped["Proveedor"] = relationship(
+        "app.modules.catalogo.models.proveedor.Proveedor",
         back_populates="compras"
     )
 
@@ -69,4 +71,4 @@ class Compra(IdMixin, BaseModel):
     )
 
 
-from app.modules.compras.models.compra_detalle import CompraDetalle
+

@@ -22,6 +22,7 @@ if TYPE_CHECKING:
     from app.modules.catalogo.models.marca import Marca
     from app.modules.catalogo.models.unidad_medida import UnidadMedida
     from app.modules.inventario.models.inventario import Inventario
+    from app.modules.ventas.models.venta_detalle import VentaDetalle
 
 
 class Producto(IdMixin, BaseModel):
@@ -111,3 +112,4 @@ class Producto(IdMixin, BaseModel):
     marca: Mapped["Marca"] = relationship(back_populates="productos")
     unidad_medida: Mapped["UnidadMedida"] = relationship(back_populates="productos")
     inventario: Mapped["Inventario"] = relationship(back_populates="producto")
+    venta_detalles: Mapped[list["VentaDetalle"]] = relationship(back_populates="producto",)
