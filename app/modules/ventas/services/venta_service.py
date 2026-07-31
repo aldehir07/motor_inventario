@@ -7,13 +7,10 @@ from app.modules.catalogo.repositories.catalogo_repository import CatalogoReposi
 
 from app.modules.ventas.models.venta import Venta
 from app.modules.ventas.models.venta_detalle import VentaDetalle
-
 from app.modules.ventas.enums.estado_venta import EstadoVenta
-
 from app.modules.ventas.repositories.venta_repository import VentaRepository
-from app.modules.ventas.repositories.venta_detalle_repository import (
-    VentaDetalleRepository,
-)
+from app.modules.ventas.repositories.venta_detalle_repository import VentaDetalleRepository
+from app.modules.ventas.schemas.reportes_schema import (ProductoMasVendidoItem)
 
 from app.modules.ventas.schemas.venta_schema import VentaCreate
 
@@ -204,3 +201,22 @@ class VentaService:
         except Exception:
             self.session.rollback()
             raise
+
+    def obtener_productos_mas_vendidos(
+        self,
+    ) -> list[ProductoMasVendidoItem]:
+
+        filas = (
+            self.detalle_repository
+            .get_productos_mas_vendidos()
+        )
+
+        return [
+            ProductoMasVendidoItem(
+                producto_id=fila.id,
+                codigo=fila.codigo,
+                nombre=fila.nombre,
+                cantidad_vendida=fila.cantidad_vendida,
+            )
+            for fila in filas
+        ]

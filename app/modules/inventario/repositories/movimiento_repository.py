@@ -26,3 +26,20 @@ class MovimientoRepository(BaseRepository[MovimientoInventario]):
         )
 
         return list(self.session.scalars(stmt))
+
+    def get_kardax(self, producto_id: int) -> list[MovimientoInventario]:
+        stmt = (
+            select(MovimientoInventario)
+            .join(
+                MovimientoInventario.inventario
+            )
+            .where(
+                MovimientoInventario.inventario.has(
+                    producto_id=producto_id
+                )
+            )
+            .order_by(
+                MovimientoInventario.fecha_creacion
+            )
+        )
+        return list(self.session.scalars(stmt))

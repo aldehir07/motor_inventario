@@ -2,6 +2,8 @@ from sqlalchemy.orm import Session
 
 from app.config.logger import logger
 
+from decimal import Decimal
+
 from app.modules.inventario.repositories.inventario_repository import (
     InventarioRepository,
 )
@@ -21,6 +23,9 @@ from app.shared.repositories.base_repository import BaseRepository
 from app.modules.inventario.exceptions.producto_no_encontrado_exception import ProductoNoEncontradoException
 from app.modules.inventario.exceptions.cantidad_invalida_exception import CantidadInvalidaException
 from app.modules.inventario.exceptions.stock_insuficiente_exception import StockInsuficienteException
+
+from app.modules.inventario.schemas.kardex_schema import KardexItem
+from app.modules.inventario.schemas.reportes_schema import (StockBajoItem, ValorInventarioItem)
 
 class InventarioService:
 
@@ -255,3 +260,87 @@ class InventarioService:
             self.session.rollback()
             logger.exception("Error ajustando stock: {}", e,)
             raise
+
+    def obtener_kardex(self, producto_id: int,) -> list[KardexItem]:
+
+        movimientos = self.movimiento_repository.get_kardax(
+            producto_id
+        )
+
+        return [
+            KardexItem(
+                fecha=movimiento.fecha_creacion,
+                tipo=movimiento.tipo,
+                cantidad=movimiento.cantidad,
+                stock_anterior=movimiento.stock_anterior,
+                stock_nuevo=movimiento.stock_nuevo,
+                motivo=movimiento.motivo,
+                referencia=movimiento.referencia,
+            )
+
+            for movimiento in movimientos
+        ]
+
+    def obtener_stock_bajo(self,) -> list[StockBajoItem]:
+
+        inventarios = self.inventario_repository.get_stock_bajo()
+
+        return [
+
+            StockBajoItem(
+                producto_id=i.producto.id,
+                codigo=i.producto.codigo,
+                nombre=i.producto.nombre,
+                stock_actual=i.stock_actual,
+                stock_minimo=i.producto.stock_minimo,
+            )
+
+            for i in inventarios
+
+        ]
+
+    def obtener_sin_stock(self ) -> list[StockBajoItem]:
+        inventarios = self.inventario_repository.get_sin_stock()
+
+        return [
+            StockBajoItem(
+                producto_id=i.producto.id,
+                codigo=i.producto.codigo,
+                nombre=i.producto.nombre,
+                stock_actual=i.stock_actual,
+                stock_minimo=i.producto.stock_minimo,
+            )
+            for i in inventarios
+        ]
+
+    def obtener_valor_inventario(self ) -> list[ValorInventarioItem]:
+
+        inventarios = self.inventario_repository.get_valor_inventario()
+        resultado = []
+
+        for inventario in inventarios:
+            costo = inventario.producto.precio_compra_actual
+            valor = inventario.stock_actual * costo
+
+            resultado.append(
+                ValorInventarioItem(
+                    producto_id=inventario.producto.id,
+                    codigo=inventario.producto.codigo,
+                    nombre=inventario.producto.nombre,
+                    stock_actual=inventario.stock_actual,
+                    costo_unitario=costo,
+                    valor_total=valor,
+                )
+            )
+        return resultado
+
+    def obtener_valor_total_inventario(self) -> Decimal:
+
+        items = self.obtener_valor_inventario()
+        return sum(
+            (
+                item.valor_total
+                for item in items
+            ),
+            Decimal("0.00"),
+        )
