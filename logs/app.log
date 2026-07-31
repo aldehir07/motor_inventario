@@ -300,3 +300,6 @@ app.shared.exceptions.not_found_exception.NotFoundException: Producto 2 no exist
 2026-07-29 12:31:41.264 | SUCCESS  | app.modules.inventario.services.inventario_service:registrar_entrada:126 - Entrada registrada. Inventario=1, Stock=105
 2026-07-29 12:31:41.277 | SUCCESS  | app.modules.compras.services.compra_service:confirmar_compra:202 - Compra FAC-2026-001 confirmada correctamente.
 2026-07-30 09:59:12.952 | SUCCESS  | app.modules.ventas.services.venta_service:crear_venta:153 - Venta VTA-2026-001 creada correctamente.
+2026-07-31 07:56:46.501 | INFO     | app.modules.inventario.services.inventario_service:registrar_salida:146 - Registrando salida. Producto=1, Cantidad=2
+2026-07-31 07:56:46.526 | SUCCESS  | app.modules.inventario.services.inventario_service:registrar_salida:186 - Salida registrada correctamente. Producto=1, Stock=103
+2026-07-31 07:56:46.555 | SUCCESS  | app.modules.ventas.services.venta_service:confirmar_venta:200 - Venta {} confirmada correctamente.

@@ -136,7 +136,7 @@ class InventarioService:
             logger.exception("Error registrando entrada: {}",e)
             raise
 
-    def registrar_salida(self, data: RegistrarSalida,):
+    def registrar_salida(self, data: RegistrarSalida, auto_commit: bool=True):
 
         self._validar_producto(data.producto_id)
         self._validar_cantidad(data.cantidad)
@@ -179,9 +179,9 @@ class InventarioService:
                 referencia=data.referencia,
             )
 
-            self.session.commit()
-
-            self.session.refresh(inventario)
+            if auto_commit:
+                self.session.commit()
+                self.session.refresh(inventario)
 
             logger.success(
                 "Salida registrada correctamente. Producto={}, Stock={}",
@@ -192,7 +192,8 @@ class InventarioService:
             return inventario
 
         except Exception as e:
-            self.session.rollback()
+            if auto_commit:
+                self.session.rollback()
             logger.exception("Error registrando salida: {}",e,)
             raise
 

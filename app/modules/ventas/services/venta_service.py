@@ -22,6 +22,9 @@ from app.shared.exceptions.not_found_exception import NotFoundException
 
 from app.shared.repositories.base_repository import BaseRepository
 
+from app.modules.inventario.services.inventario_service import InventarioService
+from app.modules.inventario.schemas.movimiento_schema import RegistrarSalida
+
 from app.config.logger import logger
 
 class VentaService:
@@ -34,6 +37,8 @@ class VentaService:
         self.detalle_repository = VentaDetalleRepository(session)
 
         self.producto_repository = CatalogoRepository(session)
+
+        self.inventario_service = InventarioService(session)
 
     def _validar_numero_documento(
         self,
@@ -99,6 +104,17 @@ class VentaService:
 
         return subtotal + impuesto
 
+    def _validar_estado(
+        self,
+        venta: Venta,
+    ):
+
+        if venta.estado != EstadoVenta.BORRADOR:
+
+            raise ValueError(
+                "Solo pueden confirmarse ventas en BORRADOR."
+            )
+        
     def crear_venta(
         self,
         data: VentaCreate,
@@ -156,3 +172,35 @@ class VentaService:
         )
 
         return venta
+
+    def confirmar_venta(self, venta_id: int) -> Venta:
+        venta = self.venta_repository.get_by_id_with_detalles(venta_id)
+
+        if venta is None:
+            raise NotFoundException("La venta no existe.")
+
+        self._validar_estado(venta)
+
+        try:
+            for detalle in venta.detalles:
+                self.inventario_service.registrar_salida(
+                    RegistrarSalida(
+                        producto_id=detalle.producto_id,
+                        cantidad=detalle.cantidad,
+                        motivo=f"Venta {venta.numero_documento}",
+                        referencia=venta.numero_documento
+                    ),
+                    auto_commit=False
+                )
+
+            venta.estado = EstadoVenta.CONFIRMADA
+            self.session.commit()
+            self.session.refresh(venta)
+
+            logger.success("Venta {} confirmada correctamente.", venta.numero_documento)
+
+            return venta
+
+        except Exception:
+            self.session.rollback()
+            raise
