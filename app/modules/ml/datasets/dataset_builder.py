@@ -7,6 +7,7 @@ from app.modules.ventas.models.venta import Venta
 from app.modules.ventas.models.venta_detalle import VentaDetalle
 from app.modules.catalogo.models.producto import Producto
 from app.modules.ventas.enums.estado_venta import EstadoVenta
+from app.modules.inventario.models.inventario import Inventario
 
 class DatasetBuilder:
 
@@ -67,6 +68,44 @@ class DatasetBuilder:
 
                 }
 
+            )
+
+        return pd.DataFrame(datos)
+
+    def construir_dataset_inventario(
+        self,
+    ) -> pd.DataFrame:
+        stmt = (
+
+            select(
+                Producto.id,
+                Producto.codigo,
+                Producto.nombre,
+                Inventario.stock_actual,
+                Producto.stock_minimo,
+                Producto.stock_maximo
+            )
+            .join(
+                Inventario,
+                Inventario.producto_id == Producto.id,
+            )
+
+        )
+
+        filas = self.session.execute(stmt).all()
+
+        datos = []
+
+        for fila in filas:
+            datos.append(
+                {
+                    "producto_id": fila.id,
+                    "codigo": fila.codigo,
+                    "nombre": fila.nombre,
+                    "stock_actual": fila.stock_actual,
+                    "stock_minimo": fila.stock_minimo,
+                    "stock_maximo": fila.stock_maximo
+                }
             )
 
         return pd.DataFrame(datos)

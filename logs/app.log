@@ -303,3 +303,6 @@ app.shared.exceptions.not_found_exception.NotFoundException: Producto 2 no exist
 2026-07-31 07:56:46.501 | INFO     | app.modules.inventario.services.inventario_service:registrar_salida:146 - Registrando salida. Producto=1, Cantidad=2
 2026-07-31 07:56:46.526 | SUCCESS  | app.modules.inventario.services.inventario_service:registrar_salida:186 - Salida registrada correctamente. Producto=1, Stock=103
 2026-07-31 07:56:46.555 | SUCCESS  | app.modules.ventas.services.venta_service:confirmar_venta:200 - Venta {} confirmada correctamente.
+2026-08-01 07:21:28.617 | INFO     | app.modules.catalogo.services.catalogo_service:crear_producto:36 - Iniciando cracion del producto 'P000002'
+2026-08-01 07:21:28.950 | INFO     | app.modules.catalogo.services.catalogo_service:crear_producto:77 - Guardando porducto 'P000002' en la base de datos
+2026-08-01 07:21:28.993 | SUCCESS  | app.modules.catalogo.services.catalogo_service:crear_producto:81 - Producto 'P000002' creado correctamente con ID 2

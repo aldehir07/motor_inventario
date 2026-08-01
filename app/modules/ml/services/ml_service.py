@@ -1,4 +1,11 @@
 from sqlalchemy.orm import Session
+from datetime import date
+
+from app.modules.ml.datasets.dataset_builder import DatasetBuilder
+
+from app.modules.ml.engines.motor_recomendaciones import (
+    MotorRecomendaciones,
+)
 from app.modules.ml.predictors.demanda_predictor import (
     DemandaPredictor,
 )
@@ -13,6 +20,7 @@ class MLService:
 
         self.session = session
         self.predictor = DemandaPredictor()
+        self.motor = MotorRecomendaciones(session)
 
     def predecir_demanda(
         self,
@@ -26,3 +34,9 @@ class MLService:
             mes,
             dia,
         )
+
+    def recomendar_comprar(self):
+        return self.motor.recomendar_compras()
+
+    
+    
