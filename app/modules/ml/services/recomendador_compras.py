@@ -14,36 +14,47 @@ class RecomendadorCompras:
     def calcular_cantidad(
         self,
         demanda: float,
-        stock: int,
+        stock_actual: int,
+        stock_maximo: int,
     ) -> int:
+        """
+        Calcula la cantidad recomendada para compra
+        sin superar el stock máximo definido.
+        """
+
+        objetivo = max(
+            demanda,
+            stock_maximo,
+        )
+
         cantidad = max(
             0,
             round(
-                demanda - stock
-            )
+                objetivo - stock_actual
+            ),
         )
 
         return cantidad
 
-    def calcular_prioridad(
-        self,
-        stock: int,
-        minimo: int,
-        riesgo_quiebre: str,
-    ) -> str:
-        if riesgo_quiebre == "CRITICO":
-            return "CRITICA"
+    # def calcular_prioridad(
+    #     self,
+    #     stock: int,
+    #     minimo: int,
+    #     riesgo_quiebre: str,
+    # ) -> str:
+    #     if riesgo_quiebre == "CRITICO":
+    #         return "CRITICA"
 
-        if riesgo_quiebre == "ALTO":
-            return "ALTA"
+    #     if riesgo_quiebre == "ALTO":
+    #         return "ALTA"
 
-        if stock <= minimo:
-            return "ALTA"
+    #     if stock <= minimo:
+    #         return "ALTA"
 
-        if riesgo_quiebre == "MEDIO":
-            return "MEDIA"
+    #     if riesgo_quiebre == "MEDIO":
+    #         return "MEDIA"
 
-        return "BAJA"
+    #     return "BAJA"
 
     def recomendar(
         self,
@@ -57,8 +68,9 @@ class RecomendadorCompras:
         indicadores
     ):
         cantidad = self.calcular_cantidad(
-            demanda,
-            producto.stock_actual,
+            demanda=demanda,
+            stock_actual=producto.stock_actual,
+            stock_maximo=producto.stock_maximo,
         )
 
         prioridad, motivo, indice = self.motor_reglas.evaluar(
@@ -88,46 +100,46 @@ class RecomendadorCompras:
             rotacion=rotacion,
         )
 
-    def _calcular_indice_prioridad(self,
-        stock: int, 
-        minimo: int, 
-        demanda: float,
-        riesgo_quiebre: str
-    ) -> int:
+    # def _calcular_indice_prioridad(self,
+    #     stock: int, 
+    #     minimo: int, 
+    #     demanda: float,
+    #     riesgo_quiebre: str
+    # ) -> int:
         
-        indice = 0
+    #     indice = 0
 
-        if stock <= 0:
-            indice += 100
+    #     if stock <= 0:
+    #         indice += 100
 
-        elif stock < minimo:
-            indice += 50
+    #     elif stock < minimo:
+    #         indice += 50
 
-        if demanda > stock:
-            indice += 25
+    #     if demanda > stock:
+    #         indice += 25
 
-        if riesgo_quiebre == "CRITICO":
-            indice += 50
+    #     if riesgo_quiebre == "CRITICO":
+    #         indice += 50
 
-        elif riesgo_quiebre == "ALTO":
-            indice += 30
+    #     elif riesgo_quiebre == "ALTO":
+    #         indice += 30
 
-        elif riesgo_quiebre == "MEDIO":
-            indice += 15
+    #     elif riesgo_quiebre == "MEDIO":
+    #         indice += 15
 
-        return min(indice, 100)
+    #     return min(indice, 100)
 
-    def _generar_motivo(
-        self,
-        stock: int,
-        minimo: int,
-        demanda: float
-    ) -> str:
-        if stock <= 0:
-            return "Producto sin existencia."
-        if stock < minimo:
-            return "Stock por debajo del minimo."
-        if demanda > stock:
-            return "La demanda estimada supera el inventario."
+    # def _generar_motivo(
+    #     self,
+    #     stock: int,
+    #     minimo: int,
+    #     demanda: float
+    # ) -> str:
+    #     if stock <= 0:
+    #         return "Producto sin existencia."
+    #     if stock < minimo:
+    #         return "Stock por debajo del minimo."
+    #     if demanda > stock:
+    #         return "La demanda estimada supera el inventario."
 
-        return "Inventario suficiente." 
+    #     return "Inventario suficiente." 
