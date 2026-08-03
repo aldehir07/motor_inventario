@@ -26,17 +26,18 @@ class RecomendadorCompras:
         self,
         stock: int,
         minimo: int,
+        riesgo_quiebre: str,
     ) -> str:
-        if stock <= 0:
-
+        if riesgo_quiebre == "CRITICO":
             return "CRITICA"
 
-        if stock < minimo:
-
+        if riesgo_quiebre == "ALTO":
             return "ALTA"
 
-        if stock < minimo * 2:
+        if stock <= minimo:
+            return "ALTA"
 
+        if riesgo_quiebre == "MEDIO":
             return "MEDIA"
 
         return "BAJA"
@@ -45,6 +46,10 @@ class RecomendadorCompras:
         self,
         producto,
         demanda,
+        dias_stock,
+        riesgo_quibre,
+        exceso_inventario,
+        motivo_exceso,
         indicadores
     ):
         cantidad = self.calcular_cantidad(
@@ -54,13 +59,15 @@ class RecomendadorCompras:
 
         prioridad = self.calcular_prioridad(
             producto.stock_actual,
-            producto.stock_minimo
+            producto.stock_minimo,
+            riesgo_quiebre=riesgo_quibre
         )
 
         indice = self._calcular_indice_prioridad(
             producto.stock_actual,
             producto.stock_minimo,
-            demanda
+            demanda,
+            riesgo_quiebre=riesgo_quibre
         )
 
         return RecomendacionCompra(
@@ -71,6 +78,8 @@ class RecomendadorCompras:
             stock_minimo=producto.stock_minimo,
             stock_maximo=producto.stock_maximo,
             demanda_estimada=demanda,
+            dias_stock=round(dias_stock, 2),
+            riesgo_quibre=riesgo_quibre,
             cantidad_recomendada=cantidad,
             indice_prioridad=indice,
             prioridad=prioridad,
@@ -86,18 +95,31 @@ class RecomendadorCompras:
     def _calcular_indice_prioridad(self,
         stock: int, 
         minimo: int, 
-        demanda: float
+        demanda: float,
+        riesgo_quiebre: str
     ) -> int:
         
         indice = 0
+
         if stock <= 0:
             indice += 100
+
         elif stock < minimo:
             indice += 50
+
         if demanda > stock:
             indice += 25
 
-        return indice
+        if riesgo_quiebre == "CRITICO":
+            indice += 50
+
+        elif riesgo_quiebre == "ALTO":
+            indice += 30
+
+        elif riesgo_quiebre == "MEDIO":
+            indice += 15
+
+        return min(indice, 100)
 
     def _generar_motivo(
         self,

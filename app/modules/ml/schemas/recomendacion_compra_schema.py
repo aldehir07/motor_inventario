@@ -17,6 +17,14 @@ class RecomendacionCompra(BaseModel):
 
     demanda_estimada: float
 
+    dias_stock: float
+
+    riesgo_quiebre: str
+
+    exceso_inventario: bool
+
+    motivo_exceso: str
+
     cantidad_recomendada: int
 
     indice_prioridad: int

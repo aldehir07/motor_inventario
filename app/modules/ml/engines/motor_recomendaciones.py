@@ -6,6 +6,8 @@ from app.modules.analytics.services.analytics_service import AnalyticsService
 from app.modules.ml.datasets.dataset_builder import DatasetBuilder
 from app.modules.ml.predictors.demanda_predictor import DemandaPredictor
 from app.modules.ml.services.recomendador_compras import RecomendadorCompras
+from app.modules.ml.services.predictor_quiebre_stock import (PredictorQuiebreStock)
+from app.modules.ml.services.detector_exceso_inventario import DetectorExcesoInventario
 
 class MotorRecomendaciones:
 
@@ -23,6 +25,10 @@ class MotorRecomendaciones:
         self.analytics = AnalyticsService(session)
 
         self.recomendador = RecomendadorCompras()
+
+        self.predictor_quiebre = PredictorQuiebreStock()
+
+        self.detector_exceso = DetectorExcesoInventario()
 
     def _obtener_indicadores(self):
         return {
@@ -47,10 +53,29 @@ class MotorRecomendaciones:
 
                 fecha=hoy,
             )
+            
+            dias_stock = self.predictor_quiebre.predecir(
+                stock_actual=producto.stock_actual,
+                demanda_diaria=demanda
+            )
+            riesgo = self.predictor_quiebre.clasificar_riesgo(
+                dias_stock
+            )
+            exceso_inventario, motivo_exceso = (
+                self.detector_exceso.detectar(
+                    stock_actual=producto.stock_actual,
+                    stock_maximo=producto.stock_maximo,
+                    demanda_diaria=demanda,
+                )
+            )
             recomendacion = self.recomendador.recomendar(
-                producto,
-                demanda,
-                indicadores
+                producto=producto,
+                demanda=demanda,
+                dias_stock=dias_stock,
+                riesgo_quiebre=riesgo,
+                exceso_inventario=exceso_inventario,
+                motivo_exceso=motivo_exceso,
+                indicadores=indicadores
             )
             recomendaciones.append(recomendacion)
     
