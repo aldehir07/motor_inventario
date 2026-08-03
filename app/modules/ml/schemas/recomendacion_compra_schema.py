@@ -35,4 +35,4 @@ class RecomendacionCompra(BaseModel):
 
     clasificacion_abc: str | None = None
 
-    rotacion: float | None = None
+    rotacion: str

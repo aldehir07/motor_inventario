@@ -1,12 +1,15 @@
 from app.modules.ml.schemas.recomendacion_compra_schema import (
     RecomendacionCompra,
 )
+from app.modules.ml.rules.motor_reglas import (
+    MotorReglas,
+)
 
 class RecomendadorCompras:
 
     def __init__(self):
 
-        pass
+        self.motor_reglas = MotorReglas()
 
     def calcular_cantidad(
         self,
@@ -47,9 +50,10 @@ class RecomendadorCompras:
         producto,
         demanda,
         dias_stock,
-        riesgo_quibre,
+        riesgo_quiebre,
         exceso_inventario,
         motivo_exceso,
+        rotacion,
         indicadores
     ):
         cantidad = self.calcular_cantidad(
@@ -57,17 +61,13 @@ class RecomendadorCompras:
             producto.stock_actual,
         )
 
-        prioridad = self.calcular_prioridad(
-            producto.stock_actual,
-            producto.stock_minimo,
-            riesgo_quiebre=riesgo_quibre
-        )
-
-        indice = self._calcular_indice_prioridad(
-            producto.stock_actual,
-            producto.stock_minimo,
-            demanda,
-            riesgo_quiebre=riesgo_quibre
+        prioridad, motivo, indice = self.motor_reglas.evaluar(
+            stock_actual=producto.stock_actual,
+            stock_minimo=producto.stock_minimo,
+            demanda=demanda,
+            riesgo_quiebre=riesgo_quiebre,
+            exceso_inventario=exceso_inventario,
+            rotacion=rotacion,
         )
 
         return RecomendacionCompra(
@@ -79,17 +79,13 @@ class RecomendadorCompras:
             stock_maximo=producto.stock_maximo,
             demanda_estimada=demanda,
             dias_stock=round(dias_stock, 2),
-            riesgo_quibre=riesgo_quibre,
+            riesgo_quiebre=riesgo_quiebre,
             cantidad_recomendada=cantidad,
             indice_prioridad=indice,
             prioridad=prioridad,
-            motivo=self._generar_motivo(
-                producto.stock_actual,
-                producto.stock_minimo,
-                demanda,
-            ),
+            motivo=motivo,
             clasificacion_abc=None,
-            rotacion=None,
+            rotacion=rotacion,
         )
 
     def _calcular_indice_prioridad(self,

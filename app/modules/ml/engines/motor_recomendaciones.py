@@ -8,6 +8,7 @@ from app.modules.ml.predictors.demanda_predictor import DemandaPredictor
 from app.modules.ml.services.recomendador_compras import RecomendadorCompras
 from app.modules.ml.services.predictor_quiebre_stock import (PredictorQuiebreStock)
 from app.modules.ml.services.detector_exceso_inventario import DetectorExcesoInventario
+from app.modules.ml.services.detector_rotacion import DetectorRotacion
 
 class MotorRecomendaciones:
 
@@ -29,6 +30,7 @@ class MotorRecomendaciones:
         self.predictor_quiebre = PredictorQuiebreStock()
 
         self.detector_exceso = DetectorExcesoInventario()
+        self.detector_rotacion = DetectorRotacion()
 
     def _obtener_indicadores(self):
         return {
@@ -53,7 +55,9 @@ class MotorRecomendaciones:
 
                 fecha=hoy,
             )
-            
+            rotacion = self.detector_rotacion.clasificar(
+                demanda
+            )
             dias_stock = self.predictor_quiebre.predecir(
                 stock_actual=producto.stock_actual,
                 demanda_diaria=demanda
@@ -75,6 +79,7 @@ class MotorRecomendaciones:
                 riesgo_quiebre=riesgo,
                 exceso_inventario=exceso_inventario,
                 motivo_exceso=motivo_exceso,
+                rotacion=rotacion,
                 indicadores=indicadores
             )
             recomendaciones.append(recomendacion)
