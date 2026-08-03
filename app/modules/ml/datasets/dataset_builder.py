@@ -21,18 +21,18 @@ class DatasetBuilder:
     def construir_dataset_ventas(
         self,
     ) -> pd.DataFrame:
-        stmt = (
 
+        stmt = (
             select(
-                Producto.id,
-                Producto.codigo,
-                Producto.nombre,
+                VentaDetalle.producto_id,
                 Venta.fecha,
                 VentaDetalle.cantidad,
+                Producto.categoria_id,
+                Producto.marca_id,
             )
             .join(
-                VentaDetalle,
-                VentaDetalle.producto_id == Producto.id,
+                Producto,
+                Producto.id == VentaDetalle.producto_id,
             )
             .join(
                 Venta,
@@ -53,21 +53,13 @@ class DatasetBuilder:
         for fila in filas:
 
             datos.append(
-
                 {
-
-                    "producto_id": fila.id,
-
-                    "codigo": fila.codigo,
-
-                    "nombre": fila.nombre,
-
+                    "producto_id": fila.producto_id,
+                    "categoria_id": fila.categoria_id,
+                    "marca_id": fila.marca_id,
                     "fecha": fila.fecha,
-
                     "cantidad": fila.cantidad,
-
                 }
-
             )
 
         return pd.DataFrame(datos)
@@ -75,21 +67,22 @@ class DatasetBuilder:
     def construir_dataset_inventario(
         self,
     ) -> pd.DataFrame:
-        stmt = (
 
+        stmt = (
             select(
                 Producto.id,
                 Producto.codigo,
                 Producto.nombre,
+                Producto.categoria_id,
+                Producto.marca_id,
                 Inventario.stock_actual,
                 Producto.stock_minimo,
-                Producto.stock_maximo
+                Producto.stock_maximo,
             )
             .join(
                 Inventario,
                 Inventario.producto_id == Producto.id,
             )
-
         )
 
         filas = self.session.execute(stmt).all()
@@ -102,9 +95,11 @@ class DatasetBuilder:
                     "producto_id": fila.id,
                     "codigo": fila.codigo,
                     "nombre": fila.nombre,
+                    "categoria_id": fila.categoria_id,
+                    "marca_id": fila.marca_id,
                     "stock_actual": fila.stock_actual,
                     "stock_minimo": fila.stock_minimo,
-                    "stock_maximo": fila.stock_maximo
+                    "stock_maximo": fila.stock_maximo,
                 }
             )
 

@@ -1,7 +1,9 @@
 from pathlib import Path
+from datetime import date
 
 import joblib
 import pandas as pd
+
 
 class DemandaPredictor:
 
@@ -30,15 +32,25 @@ class DemandaPredictor:
 
     def predecir(
         self,
-        anio: int,
-        mes: int,
-        dia: int,
-    ) -> float:
+        producto_id: int,
+        categoria_id: int,
+        marca_id: int,
+        fecha: date,
+    ):
 
-        X = self._crear_dataframe(
-            anio,
-            mes,
-            dia,
+        X = pd.DataFrame(
+            [
+                {
+                    "producto_id": producto_id,
+                    "categoria_id": categoria_id,
+                    "marca_id": marca_id,
+                    "anio": fecha.year,
+                    "mes": fecha.month,
+                    "dia": fecha.day,
+                    "dia_semana": fecha.weekday(),
+                    "trimestre": (fecha.month - 1) // 3 + 1,
+                }
+            ]
         )
 
         resultado = self.model.predict(X)

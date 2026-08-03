@@ -3,13 +3,24 @@ import pandas as pd
 
 class FeatureEngineering:
 
-    def __init__(self):
-        pass
+    FEATURES = [
+        "producto_id",
+        "categoria_id",
+        "marca_id",
+        "anio",
+        "mes",
+        "dia",
+        "dia_semana",
+        "trimestre",
+    ]
+
+    TARGET = "cantidad"
 
     def transformar_fechas(
         self,
         df: pd.DataFrame,
     ) -> pd.DataFrame:
+
         df = df.copy()
 
         df["fecha"] = pd.to_datetime(df["fecha"])
@@ -21,6 +32,8 @@ class FeatureEngineering:
         df["dia"] = df["fecha"].dt.day
 
         df["dia_semana"] = df["fecha"].dt.dayofweek
+
+        df["trimestre"] = df["fecha"].dt.quarter
 
         return df
 
@@ -59,3 +72,14 @@ class FeatureEngineering:
         df = self.ordenar_dataset(df)
 
         return df
+
+    def obtener_features_target(
+        self,
+        df: pd.DataFrame,
+    ) -> tuple[pd.DataFrame, pd.Series]:
+
+        X = df[self.FEATURES]
+
+        y = df[self.TARGET]
+
+        return X, y

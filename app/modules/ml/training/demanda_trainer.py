@@ -3,35 +3,46 @@ from pathlib import Path
 import joblib
 import pandas as pd
 
-from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
+
+from app.modules.ml.features.feature_engineering import (
+    FeatureEngineering,
+)
+
 
 class DemandaTrainer:
 
     def __init__(self):
 
-        self.model = LinearRegression()
+        self.feature_engineering = FeatureEngineering()
+
+        self.model = RandomForestRegressor(
+            n_estimators=200,
+            random_state=42,
+        )
 
     def entrenar(
         self,
         df: pd.DataFrame,
     ):
 
-        X = df[
-            [
-                "anio",
-                "mes",
-                "dia",
-            ]
-        ]
+        df = self.feature_engineering.preparar_dataset(
+            df,
+        )
 
-        y = df["cantidad"]
+        X, y = self.feature_engineering.obtener_features_target(
+            df,
+        )
 
         self.model.fit(
             X,
             y,
         )
 
-    def guardar_modelo(self):
+    def guardar_modelo(
+        self,
+    ):
+
         carpeta = Path(
             "app/modules/ml/models"
         )
@@ -53,6 +64,8 @@ class DemandaTrainer:
         df: pd.DataFrame,
     ):
 
-        self.entrenar(df)
+        self.entrenar(
+            df,
+        )
 
         self.guardar_modelo()

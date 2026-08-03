@@ -41,9 +41,11 @@ class MotorRecomendaciones:
     
         for producto in df.itertuples():
             demanda = self.predictor.predecir(
-                anio=hoy.year,
-                mes=hoy.month,
-                dia=hoy.day
+                producto_id=producto.producto_id,
+                categoria_id=producto.categoria_id,
+                marca_id=producto.marca_id,
+
+                fecha=hoy,
             )
             recomendacion = self.recomendador.recomendar(
                 producto,
