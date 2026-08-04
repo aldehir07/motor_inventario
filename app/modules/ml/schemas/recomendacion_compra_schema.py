@@ -36,3 +36,7 @@ class RecomendacionCompra(BaseModel):
     clasificacion_abc: str | None = None
 
     rotacion: str
+
+    stock_objetivo: int
+
+    cobertura_dias: int

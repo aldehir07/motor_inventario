@@ -1,7 +1,9 @@
+from app.modules.configuracion.configuracion_ml import ConfiguracionML
+
 class DetectorExcesoInventario:
 
     def __init__(self):
-        pass
+        self.config = ConfiguracionML()
 
     def detectar(
         self,
@@ -13,15 +15,23 @@ class DetectorExcesoInventario:
         Detecta si un producto posee exceso de inventario.
         """
 
-        if stock_actual <= stock_maximo:
+        if demanda_diaria <= 0:
+            return (
+                stock_actual > stock_maximo,
+                "No existe demanda registrada."
+            )
+
+        dias = stock_actual / demanda_diaria
+
+        if (
+            stock_actual <= stock_maximo
+            and dias <= self.config.dias_exceso_inventario
+        ):
             return False, "Inventario normal."
 
-        exceso = stock_actual - stock_maximo
-
-        dias = (
-            float("inf")
-            if demanda_diaria <= 0
-            else stock_actual / demanda_diaria
+        exceso = max(
+            0,
+            stock_actual - stock_maximo,
         )
 
         motivo = (

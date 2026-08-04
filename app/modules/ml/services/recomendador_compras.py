@@ -4,37 +4,41 @@ from app.modules.ml.schemas.recomendacion_compra_schema import (
 from app.modules.ml.rules.motor_reglas import (
     MotorReglas,
 )
+from app.modules.ml.services.calculadora_cobertura import (
+    CalculadoraCobertura,
+)
 
 class RecomendadorCompras:
 
     def __init__(self):
 
         self.motor_reglas = MotorReglas()
+        self.cobertura = CalculadoraCobertura()
 
-    def calcular_cantidad(
-        self,
-        demanda: float,
-        stock_actual: int,
-        stock_maximo: int,
-    ) -> int:
-        """
-        Calcula la cantidad recomendada para compra
-        sin superar el stock máximo definido.
-        """
+    # def calcular_cantidad(
+    #     self,
+    #     demanda: float,
+    #     stock_actual: int,
+    #     stock_maximo: int,
+    # ) -> int:
+    #     """
+    #     Calcula la cantidad recomendada para compra
+    #     sin superar el stock máximo definido.
+    #     """
 
-        objetivo = max(
-            demanda,
-            stock_maximo,
-        )
+    #     objetivo = max(
+    #         demanda,
+    #         stock_maximo,
+    #     )
 
-        cantidad = max(
-            0,
-            round(
-                objetivo - stock_actual
-            ),
-        )
+    #     cantidad = max(
+    #         0,
+    #         round(
+    #             objetivo - stock_actual
+    #         ),
+    #     )
 
-        return cantidad
+    #     return cantidad
 
     # def calcular_prioridad(
     #     self,
@@ -67,11 +71,15 @@ class RecomendadorCompras:
         rotacion,
         indicadores
     ):
-        cantidad = self.calcular_cantidad(
-            demanda=demanda,
+        cantidad = self.cobertura.calcular_compra(
             stock_actual=producto.stock_actual,
-            stock_maximo=producto.stock_maximo,
+            demanda_diaria=demanda,
         )
+        stock_objetivo = self.cobertura.calcular_stock_objetivo(
+            demanda
+        )
+
+        cobertura = self.cobertura.obtener_cobertura()
 
         prioridad, motivo, indice = self.motor_reglas.evaluar(
             stock_actual=producto.stock_actual,
@@ -98,6 +106,10 @@ class RecomendadorCompras:
             motivo=motivo,
             clasificacion_abc=None,
             rotacion=rotacion,
+            stock_objetivo=stock_objetivo,
+            cobertura_dias=cobertura,
+            exceso_inventario=exceso_inventario,
+            motivo_exceso=motivo_exceso
         )
 
     # def _calcular_indice_prioridad(self,
