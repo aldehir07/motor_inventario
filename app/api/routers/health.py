@@ -1,16 +1,20 @@
 from fastapi import APIRouter
 
+from app.api.schemas.health_schema import HealthResponse
+from app.api.services.health_service import HealthService
+
 router = APIRouter(
     prefix="/health",
     tags=["Health"]
 )
 
-@router.get("")
+service = HealthService()
+
+@router.get("", response_model=HealthResponse)
+
 def health():
     """
     Verifica que la API se encuentre disponible
     """
 
-    return {
-        "status": "ok"
-    }
+    return service.obtener_estado()

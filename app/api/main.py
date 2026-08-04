@@ -5,6 +5,24 @@ from app.api.routers.health import router as health_router
 from app.api.core.cors import configure_cors
 from app.api.exceptions.handlers import generic_exception_handler
 
+from app.api.routers.productos import router as productos_router
+
+from app.api.exceptions.handlers import (
+    duplicate_exception_handler,
+)
+
+from app.api.exceptions.handlers import (
+    not_found_exception_handler,
+)
+
+from app.shared.exceptions.not_found_exception import (
+    NotFoundException,
+)
+
+from app.shared.exceptions.duplicate_exception import (
+    DuplicateException,
+)
+
 
 app = FastAPI(
 
@@ -29,6 +47,18 @@ app.add_exception_handler(
     generic_exception_handler,
 )
 
+app.add_exception_handler(
+    NotFoundException,
+    not_found_exception_handler,
+)
+
+app.add_exception_handler(
+    DuplicateException,
+    duplicate_exception_handler,
+)
+
 app.include_router(
     health_router
 )
+
+app.include_router(productos_router)
