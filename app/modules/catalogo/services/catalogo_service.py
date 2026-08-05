@@ -21,6 +21,8 @@ from app.shared.repositories.base_repository import BaseRepository
 from app.modules.catalogo.schemas.producto_filter import ProductoFilter
 from app.modules.catalogo.schemas.producto_schema import ProductoUpdate
 
+from app.shared.schemas.paginated_result import PaginatedResult
+
 class CatalogoService:
 
     def __init__(self, session: Session):
@@ -105,17 +107,26 @@ class CatalogoService:
     def buscar_producto(self, texto: str) -> list[Producto]:
         return self.repository.buscar_por_nombre(texto)
 
-    def listar_productos(self, pagina: int = 1, limite: int = 50):
-        productos, total = (self.repository.get_paginated(pagina, limite))
-        paginas = math.ceil(total/limite)
+    def listar_productos(
+        self,
+        pagina: int = 1,
+        limite: int = 50,
+    ) -> PaginatedResult[Producto]:
 
-        return {
-            "items": productos,
-            "total": total,
-            "pagina": pagina,
-            "limite": limite,
-            "paginas": paginas
-        }
+        productos, total = self.repository.get_paginated(
+            pagina,
+            limite,
+        )
+
+        paginas = math.ceil(total / limite)
+
+        return PaginatedResult(
+            items=productos,
+            total=total,
+            pagina=pagina,
+            limite=limite,
+            paginas=paginas,
+        )
 
     def filtrar_productos(self,filtros: ProductoFilter):
         return self.repository.filtrar(filtros)
