@@ -306,3 +306,16 @@ app.shared.exceptions.not_found_exception.NotFoundException: Producto 2 no exist
 2026-08-01 07:21:28.617 | INFO     | app.modules.catalogo.services.catalogo_service:crear_producto:36 - Iniciando cracion del producto 'P000002'
 2026-08-01 07:21:28.950 | INFO     | app.modules.catalogo.services.catalogo_service:crear_producto:77 - Guardando porducto 'P000002' en la base de datos
 2026-08-01 07:21:28.993 | SUCCESS  | app.modules.catalogo.services.catalogo_service:crear_producto:81 - Producto 'P000002' creado correctamente con ID 2
+2026-08-04 21:34:50.721 | INFO     | app.modules.catalogo.services.catalogo_service:actualizar_producto:145 - Actualizando producto ID 1
+2026-08-04 21:37:12.947 | INFO     | app.modules.catalogo.services.catalogo_service:actualizar_producto:145 - Actualizando producto ID 2
+2026-08-04 21:38:07.766 | INFO     | app.modules.catalogo.services.catalogo_service:actualizar_producto:145 - Actualizando producto ID 2
+2026-08-04 21:45:41.965 | INFO     | app.modules.catalogo.services.catalogo_service:actualizar_producto:145 - Actualizando producto ID 1
+2026-08-04 21:45:41.972 | SUCCESS  | app.modules.catalogo.services.catalogo_service:actualizar_producto:149 - Producto P000001 actualizado correctamente
+2026-08-04 21:48:50.007 | WARNING  | app.modules.catalogo.services.catalogo_service:desactivar_producto:162 - Desactivando producto P000001
+2026-08-04 21:48:56.995 | WARNING  | app.modules.catalogo.services.catalogo_service:desactivar_producto:162 - Desactivando producto P000001
+2026-08-04 21:48:57.064 | WARNING  | app.modules.catalogo.services.catalogo_service:desactivar_producto:162 - Desactivando producto P000001
+2026-08-04 21:49:16.450 | WARNING  | app.modules.catalogo.services.catalogo_service:desactivar_producto:162 - Desactivando producto P000001
+2026-08-04 21:55:05.509 | WARNING  | app.modules.catalogo.services.catalogo_service:desactivar_producto:162 - Desactivando producto P000001
+2026-08-04 21:55:05.513 | SUCCESS  | app.modules.catalogo.services.catalogo_service:desactivar_producto:167 - Producto P000001 desactivado correctamente
+2026-08-04 21:55:09.185 | WARNING  | app.modules.catalogo.services.catalogo_service:desactivar_producto:162 - Desactivando producto P000001
+2026-08-04 21:55:09.188 | SUCCESS  | app.modules.catalogo.services.catalogo_service:desactivar_producto:167 - Producto P000001 desactivado correctamente

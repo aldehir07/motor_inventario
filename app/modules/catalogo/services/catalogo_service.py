@@ -162,4 +162,11 @@ class CatalogoService:
         logger.warning("Desactivando producto {}", producto.codigo)
         self.session.commit()
 
+        self.session.refresh(producto)
+
+        logger.success(
+            "Producto {} desactivado correctamente",
+            producto.codigo,
+        )
+
         return producto
