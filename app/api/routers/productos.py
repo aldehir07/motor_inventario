@@ -1,9 +1,7 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Query, status
-from sqlalchemy.orm import Session
 
-from app.api.dependencies import get_db
 from app.api.schemas.paginated_response import PaginatedResponse
 from app.api.schemas.producto_response import ProductoResponse
 
@@ -23,6 +21,9 @@ from app.api.schemas.producto_update_request import (
 
 from app.modules.catalogo.schemas.producto_schema import (
     ProductoUpdate,
+)
+from app.api.dependencies.catalogo import (
+    get_catalogo_service,
 )
 
 router = APIRouter(
@@ -48,8 +49,12 @@ router = APIRouter(
     description="Obtiene los productos paginados.",
 
 )
-
 def listar_productos(
+
+    service: Annotated[
+        CatalogoService,
+        Depends(get_catalogo_service),
+    ],
 
     pagina: int = Query(
         default=1,
@@ -62,14 +67,7 @@ def listar_productos(
         le=100,
     ),
 
-    db: Annotated[
-        Session,
-        Depends(get_db),
-    ] = None,
-
 ):
-
-    service = CatalogoService(db)
 
     resultado = service.listar_productos(
         pagina=pagina,
@@ -77,6 +75,7 @@ def listar_productos(
     )
 
     return resultado
+
 @router.get(
     "/{producto_id}",
     response_model=ProductoResponse,
@@ -86,16 +85,16 @@ def listar_productos(
 )
 def obtener_productor(
     producto_id: int, 
-    db: Annotated[
-        Session, 
-        Depends(get_db),
-        ],
+    service: Annotated[
+        CatalogoService,
+        Depends(get_catalogo_service),
+    ],
 ):
-    service = CatalogoService(db)
 
     return service.obtener_producto_port_id(
         producto_id
     )
+
 
 @router.post(
     "",
@@ -107,15 +106,12 @@ def obtener_productor(
 def crear_producto(
 
     request: ProductoCreateRequest,
-
-    db: Annotated[
-        Session,
-        Depends(get_db),
-    ],
+    service: Annotated[
+        CatalogoService,
+        Depends(get_catalogo_service)
+    ]
 
 ):
-
-    service = CatalogoService(db)
 
     data = ProductoCreate(
 
@@ -127,34 +123,26 @@ def crear_producto(
         data
     )
 
+
 @router.put(
 
     "/{producto_id}",
-
     response_model=ProductoResponse,
-
     status_code=status.HTTP_200_OK,
-
     summary="Actualizar producto",
-
     description="Actualiza la información de un producto.",
 
 )
 def actualizar_producto(
 
     producto_id: int,
-
     request: ProductoUpdateRequest,
-
-    db: Annotated[
-        Session,
-        Depends(get_db),
-    ],
+    service: Annotated[
+        CatalogoService,
+        Depends(get_catalogo_service)
+    ]
 
 ):
-
-    service = CatalogoService(db)
-
     data = ProductoUpdate(
 
         **request.model_dump(
@@ -171,6 +159,7 @@ def actualizar_producto(
 
     )
 
+
 @router.patch(
     "/{producto_id}/desactivar",
     response_model=ProductoResponse,
@@ -181,19 +170,17 @@ def actualizar_producto(
 def desactivar_producto(
 
     producto_id: int,
-
-    db: Annotated[
-        Session,
-        Depends(get_db),
-    ],
+    service: Annotated[
+        CatalogoService,
+        Depends(get_catalogo_service)
+    ]
 
 ):
-
-    service = CatalogoService(db)
 
     return service.desactivar_producto(
         producto_id
     )
+
 
 @router.get(
     "/codigo/{codigo}",
@@ -206,14 +193,12 @@ def obtener_producto_por_codigo(
 
     codigo: str,
 
-    db: Annotated[
-        Session,
-        Depends(get_db),
-    ],
+    service: Annotated[
+        CatalogoService,
+        Depends(get_catalogo_service)
+    ]
 
 ):
-
-    service = CatalogoService(db)
 
     return service.obtener_producto_por_codigo(
         codigo
