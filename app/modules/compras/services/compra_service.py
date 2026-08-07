@@ -207,3 +207,31 @@ class CompraService:
             self.session.rollback()
             logger.exception("Error confirmando compra: {}", e)
             raise
+
+
+    def obtener_compra_por_id(
+        self,
+        compra_id: int,
+    ) -> Compra:
+
+        compra = self.compra_respository.get_by_id_with_detalles(
+            compra_id
+        )
+
+        if compra is None:
+            raise NotFoundException(
+                "La compra no existe."
+            )
+
+        return compra
+
+    def listar_compras_por_proveedor(
+        self,
+        proveedor_id: int,
+    ) -> list[Compra]:
+
+        self._validar_proveedor(proveedor_id)
+
+        return self.compra_respository.get_by_proveedor(
+            proveedor_id
+        )

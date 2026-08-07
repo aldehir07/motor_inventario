@@ -34,6 +34,9 @@ class CompraRepository(BaseRepository[Compra]):
 
         stmt = (
             select(Compra)
+            .options(
+                joinedload(Compra.detalles)
+            )
             .where(
                 Compra.proveedor_id == proveedor_id
             )
@@ -42,8 +45,10 @@ class CompraRepository(BaseRepository[Compra]):
             )
         )
 
+        result = self.session.execute(stmt)
+
         return list(
-            self.session.scalars(stmt)
+            result.unique().scalars().all()
         )
 
     def get_by_id_with_detalles(
