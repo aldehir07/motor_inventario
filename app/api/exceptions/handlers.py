@@ -8,6 +8,9 @@ from app.shared.exceptions.not_found_exception import (
 from app.shared.exceptions.duplicate_exception import (
     DuplicateException,
 )
+from app.shared.exceptions.conflict_exception import (
+    ConflictException,
+)
 
 
 async def generic_exception_handler(
@@ -73,4 +76,17 @@ async def duplicate_exception_handler(
 
         },
 
+    )
+
+async def conflict_exception_handler(
+    request: Request,
+    exc: ConflictException,
+):
+    return JSONResponse(
+        status_code=409,
+        content={
+            "success": False,
+            "error": "Conflict",
+            "message": str(exc),
+        },
     )

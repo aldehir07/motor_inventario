@@ -1,4 +1,9 @@
-class ProductoNoEncontradoException(Exception):
+from app.shared.exceptions.not_found_exception import (
+    NotFoundException,
+)
+
+
+class ProductoNoEncontradoException(NotFoundException):
 
     def __init__(self, producto_id: int):
         super().__init__(

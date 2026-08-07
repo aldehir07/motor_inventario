@@ -263,6 +263,8 @@ class InventarioService:
 
     def obtener_kardex(self, producto_id: int,) -> list[KardexItem]:
 
+        self._validar_producto(producto_id)
+
         movimientos = self.movimiento_repository.get_kardax(
             producto_id
         )

@@ -19,6 +19,7 @@ from app.modules.inventario.schemas.movimiento_schema import (
 from app.modules.inventario.services.inventario_service import (
     InventarioService,
 )
+from app.api.schemas.kardex_response import KardexResponse
 
 router = APIRouter(
     prefix="/inventario",
@@ -93,4 +94,24 @@ def ajustar_stock(
     return success_response(
         inventario,
         "Stock ajustado correctamente.",
+    )
+
+@router.get(
+    "/{producto_id}/kardex",
+    response_model=ApiResponse[list[KardexResponse]],
+    status_code=status.HTTP_200_OK,
+    summary="Obtener Kardex de un producto",
+)
+def obtener_kardex(
+    producto_id: int,
+    service: Annotated[
+        InventarioService,
+        Depends(get_inventario_service),
+    ],
+):
+    kardex = service.obtener_kardex(producto_id)
+
+    return success_response(
+        kardex,
+        "Kardex obtenido correctamente.",
     )

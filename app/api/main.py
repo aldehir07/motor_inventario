@@ -23,6 +23,13 @@ from app.shared.exceptions.not_found_exception import (
 from app.shared.exceptions.duplicate_exception import (
     DuplicateException,
 )
+from app.api.exceptions.handlers import (
+    conflict_exception_handler,
+)
+
+from app.shared.exceptions.conflict_exception import (
+    ConflictException,
+)
 
 
 app = FastAPI(
@@ -56,6 +63,11 @@ app.add_exception_handler(
 app.add_exception_handler(
     DuplicateException,
     duplicate_exception_handler,
+)
+
+app.add_exception_handler(
+    ConflictException,
+    conflict_exception_handler,
 )
 
 app.include_router(

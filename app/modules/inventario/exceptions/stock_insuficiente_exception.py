@@ -1,4 +1,9 @@
-class StockInsuficienteException(Exception):
+from app.shared.exceptions.conflict_exception import (
+    ConflictException,
+)
+
+
+class StockInsuficienteException(ConflictException):
 
     def __init__(
         self,
@@ -6,5 +11,6 @@ class StockInsuficienteException(Exception):
         solicitado: int,
     ):
         super().__init__(
-            f"Stock insuficiente. Disponible: {disponible}, solicitado: {solicitado}."
+            f"Stock insuficiente. Disponible: {disponible}, "
+            f"solicitado: {solicitado}."
         )
