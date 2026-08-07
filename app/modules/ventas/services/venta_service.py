@@ -22,6 +22,10 @@ from app.shared.repositories.base_repository import BaseRepository
 from app.modules.inventario.services.inventario_service import InventarioService
 from app.modules.inventario.schemas.movimiento_schema import RegistrarSalida
 
+from app.modules.ventas.exceptions.estado_venta_exception import (
+    EstadoVentaException,
+)
+
 from app.config.logger import logger
 
 class VentaService:
@@ -108,7 +112,7 @@ class VentaService:
 
         if venta.estado != EstadoVenta.BORRADOR:
 
-            raise ValueError(
+            raise EstadoVentaException(
                 "Solo pueden confirmarse ventas en BORRADOR."
             )
         
