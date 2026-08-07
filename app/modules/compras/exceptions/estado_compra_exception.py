@@ -1,4 +1,7 @@
-class EstadoCompraException(Exception):
+from app.shared.exceptions.conflict_exception import (
+    ConflictException,
+)
 
-    def __init__(self, mensaje: str):
-        super().__init__(mensaje)
+
+class EstadoCompraException(ConflictException):
+    """Operación no permitida según el estado de la compra."""

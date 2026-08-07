@@ -440,3 +440,11 @@ Traceback (most recent call last):
           └ <class 'app.modules.inventario.exceptions.stock_insuficiente_exception.StockInsuficienteException'>
 
 app.modules.inventario.exceptions.stock_insuficiente_exception.StockInsuficienteException: Stock insuficiente. Disponible: 50, solicitado: 999999.
+2026-08-07 01:58:17.019 | WARNING  | app.modules.catalogo.services.catalogo_service:desactivar_producto:162 - Desactivando producto P000001
+2026-08-07 01:58:17.024 | SUCCESS  | app.modules.catalogo.services.catalogo_service:desactivar_producto:167 - Producto P000001 desactivado correctamente
+2026-08-07 02:09:58.993 | INFO     | app.modules.compras.services.compra_service:crear_compra:108 - Creando compra CMP-API-001
+2026-08-07 02:09:59.082 | SUCCESS  | app.modules.compras.services.compra_service:crear_compra:156 - Compra CMP-API-001 creando correctamente.
+2026-08-07 02:11:47.928 | INFO     | app.modules.compras.services.compra_service:confirmar_compra:179 - Confirmando compra CMP-API-001
+2026-08-07 02:11:47.941 | INFO     | app.modules.inventario.services.inventario_service:registrar_entrada:91 - Registrando entrada. Producto=1, Cantidad=8
+2026-08-07 02:11:47.945 | SUCCESS  | app.modules.inventario.services.inventario_service:registrar_entrada:131 - Entrada registrada. Inventario=1, Stock=58
+2026-08-07 02:11:47.963 | SUCCESS  | app.modules.compras.services.compra_service:confirmar_compra:202 - Compra CMP-API-001 confirmada correctamente.

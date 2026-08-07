@@ -7,6 +7,7 @@ from app.api.exceptions.handlers import generic_exception_handler
 
 from app.api.routers.productos import router as productos_router
 from app.api.routers.inventario import router as inventario_router
+from app.api.routers.compras import router as compras_router
 
 from app.api.exceptions.handlers import (
     duplicate_exception_handler,
@@ -30,6 +31,7 @@ from app.api.exceptions.handlers import (
 from app.shared.exceptions.conflict_exception import (
     ConflictException,
 )
+
 
 
 app = FastAPI(
@@ -76,3 +78,4 @@ app.include_router(
 
 app.include_router(productos_router)
 app.include_router(inventario_router)
+app.include_router(compras_router)
