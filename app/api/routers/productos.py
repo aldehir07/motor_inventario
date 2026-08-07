@@ -25,6 +25,8 @@ from app.modules.catalogo.schemas.producto_schema import (
 from app.api.dependencies.catalogo import (
     get_catalogo_service,
 )
+from app.api.utils.responses import success_response
+from app.api.schemas.api_response import ApiResponse
 
 router = APIRouter(
 
@@ -38,8 +40,8 @@ router = APIRouter(
 
     "",
 
-    response_model=PaginatedResponse[
-        ProductoResponse
+    response_model=ApiResponse[
+        PaginatedResponse[ProductoResponse]
     ],
 
     status_code=200,
@@ -74,14 +76,15 @@ def listar_productos(
         limite=limite,
     )
 
-    return resultado
+    return success_response(
+        resultado,
+        "Productos obtenidos correctamente."
+    )
 
 @router.get(
     "/{producto_id}",
-    response_model=ProductoResponse,
-    status_code=200,
-    summary="Obtener un producto",
-    description="Obtiene un producto mediante su identificador",
+    response_model=ApiResponse[ProductoResponse],
+    status_code=status.HTTP_200_OK
 )
 def obtener_productor(
     producto_id: int, 
@@ -91,8 +94,13 @@ def obtener_productor(
     ],
 ):
 
-    return service.obtener_producto_port_id(
+    producto = service.obtener_producto_port_id(
         producto_id
+    )
+
+    return success_response(
+        producto,
+        "Producto obtenido correctamente."
     )
 
 
