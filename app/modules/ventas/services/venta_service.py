@@ -224,3 +224,19 @@ class VentaService:
             )
             for fila in filas
         ]
+
+    def obtener_venta_por_id(
+        self,
+        venta_id: int,
+    ) -> Venta:
+
+        venta = self.venta_repository.get_by_id_with_detalles(
+            venta_id
+        )
+
+        if venta is None:
+            raise NotFoundException(
+                "La venta no existe."
+            )
+
+        return venta

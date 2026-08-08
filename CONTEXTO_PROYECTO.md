@@ -94,9 +94,12 @@ Ubicación:
 app/api/routers/
 ```
 
-Actualmente existe:
+Actualmente existen:
 
 * productos.py
+* inventario.py
+* compras.py
+* ventas.py
 
 Los routers únicamente llaman al Service correspondiente.
 
@@ -347,8 +350,42 @@ Ejemplos:
 
 * NotFoundException
 * DuplicateException
+* ConflictException
 
 FastAPI las transforma automáticamente en respuestas HTTP mediante handlers globales.
+
+Las reglas de negocio de Inventario, Compras y Ventas reutilizan estas excepciones para devolver respuestas HTTP controladas (`404` o `409`) en lugar de errores internos `500`.
+
+---
+
+## Inyección de dependencias
+
+Cada router recibe su Service mediante `Depends(...)`. Existen dependencias para Catálogo, Inventario, Compras, Ventas, Analytics y ML.
+
+Ejemplo:
+
+```python
+service: Annotated[
+    CatalogoService,
+    Depends(get_catalogo_service),
+]
+```
+
+---
+
+## Respuestas estándar exitosas
+
+Las respuestas exitosas de la API siguen este formato genérico:
+
+```json
+{
+  "success": true,
+  "message": "Mensaje descriptivo.",
+  "data": {}
+}
+```
+
+Se implementan mediante `ApiResponse[T]` y el helper `success_response(...)`.
 
 ---
 
@@ -393,33 +430,31 @@ Incluye:
 * Proveedores
 * Unidades de medida
 
-CRUD de productos vía API prácticamente completo.
+API REST de Productos completada y validada.
 
 ---
 
 ## Inventario
 
-Implementado.
+Implementado y expuesto por API REST.
 
-Control de stock.
-
-Pendiente API REST.
+Incluye movimientos, Kardex y reportes.
 
 ---
 
 ## Compras
 
-Implementado a nivel de dominio.
+Implementado y expuesto por API REST.
 
-Pendiente API REST.
+Incluye creación, confirmación y consultas por ID y proveedor.
 
 ---
 
 ## Ventas
 
-Implementado a nivel de dominio.
+Implementado a nivel de dominio y parcialmente expuesto por API REST.
 
-Pendiente API REST.
+Incluye creación, confirmación, reporte de productos más vendidos y consulta por ID pendiente de validación final.
 
 ---
 
@@ -547,9 +582,7 @@ Convertidas automáticamente a respuestas HTTP.
 
 ## GET /productos
 
-Estado:
-
-Probado.
+Estado: probado y validado.
 
 Ruta:
 
@@ -569,9 +602,7 @@ HTTP:
 
 ## GET /productos/{id}
 
-Estado:
-
-Probado.
+Estado: probado y validado.
 
 Ruta:
 
@@ -591,11 +622,7 @@ Si no existe:
 
 ## GET /productos/codigo/{codigo}
 
-Estado:
-
-Implementado.
-
-Pendiente de confirmar si ya fue probado en Swagger.
+Estado: probado y validado.
 
 Ruta:
 
@@ -692,11 +719,7 @@ Se detectó inicialmente un problema por enviar IDs con valor `0` desde Swagger.
 
 ## PATCH /productos/{id}/desactivar
 
-Estado:
-
-Implementado.
-
-Probado: pendiente de confirmar explícitamente.
+Estado: probado y validado.
 
 Ruta:
 
@@ -716,26 +739,88 @@ HTTP esperado:
 
 ---
 
-# 10. Problemas o limitaciones pendientes
+# 10. Estado de la Fase 9 — API REST
 
-* Refactorizar la creación manual de `CatalogoService` en los routers mediante inyección de dependencias (`Depends(get_catalogo_service)`), mejora planificada pero aún no implementada.
-* Completar la API REST para Inventario, Compras, Ventas, Analytics y ML.
-* Añadir pruebas automatizadas (pendiente).
+## Infraestructura API
+
+Completada y validada.
+
+* FastAPI, CORS y Swagger.
+* Handlers globales para `NotFoundException`, `DuplicateException` y `ConflictException`.
+* Respuestas exitosas estándar mediante `ApiResponse[T]`.
+* Inyección de dependencias para los Services de todos los módulos.
+
+## Productos — completado
+
+```text
+GET   /productos
+GET   /productos/{id}
+GET   /productos/codigo/{codigo}
+POST  /productos
+PUT   /productos/{id}
+PATCH /productos/{id}/desactivar
+```
+
+## Inventario — completado
+
+```text
+POST /inventario/entradas
+POST /inventario/salidas
+POST /inventario/ajustes
+
+GET  /inventario/{producto_id}/kardex
+GET  /inventario/reportes/stock-bajo
+GET  /inventario/reportes/sin-stock
+GET  /inventario/reportes/valor
+GET  /inventario/reportes/valor-total
+```
+
+Validaciones comprobadas:
+
+* producto inexistente: `404 Not Found`;
+* stock insuficiente: `409 Conflict`;
+* Kardex con trazabilidad de entradas, salidas y ajustes.
+
+## Compras — completado
+
+```text
+POST  /compras
+PATCH /compras/{compra_id}/confirmar
+GET   /compras/{compra_id}
+GET   /compras?proveedor_id={proveedor_id}
+```
+
+Al confirmar una compra se registran automáticamente entradas en Inventario. También se validaron documentos duplicados y confirmaciones repetidas con `409 Conflict`.
+
+## Ventas — en progreso
+
+Implementado y validado:
+
+```text
+POST  /ventas
+PATCH /ventas/{venta_id}/confirmar
+GET   /ventas/reportes/productos-mas-vendidos
+```
+
+Pendiente de validación final:
+
+```text
+GET /ventas/{venta_id}
+```
+
+Al confirmar una venta se registra una salida en Inventario. Se validaron documentos duplicados, confirmaciones repetidas y stock insuficiente con respuestas controladas.
 
 ---
 
-# 11. Próximos pasos recomendados
+# 11. Pendientes recomendados
 
-1. Finalizar oficialmente el Sprint 9.4 verificando todos los endpoints.
-2. Crear dependencias para inyección de servicios en FastAPI.
-3. Reutilizar el patrón CRUD implementado en Productos para Inventario.
-4. Implementar CRUD de Compras.
-5. Implementar CRUD de Ventas.
-6. Exponer Analytics mediante API.
-7. Exponer el Motor Inteligente mediante API.
-8. Incorporar autenticación/autorización (pendiente de definir).
-9. Crear pruebas unitarias e integración.
-10. Desarrollar un Dashboard web (pendiente de definir la tecnología frontend).
+1. Validar `GET /ventas/{venta_id}` con una venta existente y una inexistente (`404`).
+2. Decidir e implementar consultas adicionales de Ventas y Compras si son necesarias (por ejemplo, listados o filtros).
+3. Exponer Analytics mediante API REST.
+4. Exponer el Motor Inteligente y predicciones de Machine Learning mediante API REST.
+5. Añadir pruebas automatizadas unitarias y de integración para los endpoints ya implementados.
+6. Incorporar autenticación y autorización.
+7. Desarrollar un Dashboard o frontend; la tecnología queda por definir.
 
 ---
 
@@ -782,14 +867,28 @@ Incluyó:
 
 ## Fase 9 — API REST
 
-En desarrollo.
+En desarrollo avanzado.
 
-Completado hasta ahora:
+Sprints completados:
 
-* Configuración inicial de FastAPI.
-* CORS.
-* Manejo global de excepciones.
-* CRUD de Productos prácticamente terminado.
-* Documentación automática mediante Swagger.
+* Sprint 9.4: CRUD de Productos validado.
+* Sprint 9.5: inyección de dependencias para Services.
+* Sprint 9.5.5: respuestas exitosas estándar.
+* Sprint 10.1: movimientos de Inventario.
+* Sprint 10.2: Kardex y manejo de errores de Inventario.
+* Sprint 10.3: reportes de Inventario.
+* Sprint 11.1: creación y confirmación de Compras.
+* Sprint 11.2: consultas de Compras.
+* Sprint 12.1: creación y confirmación de Ventas.
+* Sprint 12.2: reporte de productos más vendidos.
 
-Los siguientes módulos (Inventario, Compras, Ventas, Analytics y ML) deberán implementarse reutilizando exactamente la misma arquitectura utilizada para Productos.
+Sprint actual:
+
+* Sprint 12.3: consulta de Ventas por ID; endpoint implementado, pendiente de validación final.
+
+Pendientes de la Fase 9:
+
+* terminar la consulta de Ventas por ID;
+* definir consultas adicionales de Compras y Ventas si el alcance lo requiere;
+* exponer Analytics y Machine Learning mediante API;
+* automatizar pruebas y añadir autenticación/autorización.
