@@ -496,3 +496,50 @@ Traceback (most recent call last):
           └ <class 'app.modules.inventario.exceptions.stock_insuficiente_exception.StockInsuficienteException'>
 
 app.modules.inventario.exceptions.stock_insuficiente_exception.StockInsuficienteException: Stock insuficiente. Disponible: 54, solicitado: 999999.
+2026-08-08 15:02:21.665 | INFO     | app.modules.inventario.services.inventario_service:registrar_salida:151 - Registrando salida. Producto=1, Cantidad=999999
+2026-08-08 15:02:21.695 | ERROR    | app.modules.inventario.services.inventario_service:registrar_salida:202 - Error registrando salida: Stock insuficiente. Disponible: 54, solicitado: 999999.
+Traceback (most recent call last):
+
+  File "C:\Python313\Lib\threading.py", line 1014, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000002456BCD0040>
+    └ <WorkerThread(AnyIO worker thread, started 10280)>
+  File "C:\Python313\Lib\threading.py", line 1043, in _bootstrap_inner
+    self.run()
+    │    └ <function WorkerThread.run at 0x0000024571782CA0>
+    └ <WorkerThread(AnyIO worker thread, started 10280)>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             │       │   │      └ ()
+             │       │   └ functools.partial(<function confirmar_venta at 0x000002457169A480>, service=<app.modules.ventas.services.venta_service.VentaS...
+             │       └ <method 'run' of '_contextvars.Context' objects>
+             └ <_contextvars.Context object at 0x00000245717AE400>
+
+  File "D:\Programando-2025\motor_inventario\app\api\routers\ventas.py", line 58, in confirmar_venta
+    venta = service.confirmar_venta(venta_id)
+            │       │               └ 3
+            │       └ <function VentaService.confirmar_venta at 0x000002457169A020>
+            └ <app.modules.ventas.services.venta_service.VentaService object at 0x000002457161DD30>
+
+  File "D:\Programando-2025\motor_inventario\app\modules\ventas\services\venta_service.py", line 187, in confirmar_venta
+    self.inventario_service.registrar_salida(
+    │    │                  └ <function InventarioService.registrar_salida at 0x00000245716291C0>
+    │    └ <app.modules.inventario.services.inventario_service.InventarioService object at 0x000002457161FA10>
+    └ <app.modules.ventas.services.venta_service.VentaService object at 0x000002457161DD30>
+
+> File "D:\Programando-2025\motor_inventario\app\modules\inventario\services\inventario_service.py", line 166, in registrar_salida
+    self._validar_stock(
+    │    └ <function InventarioService._validar_stock at 0x0000024571628FE0>
+    └ <app.modules.inventario.services.inventario_service.InventarioService object at 0x000002457161FA10>
+
+  File "D:\Programando-2025\motor_inventario\app\modules\inventario\services\inventario_service.py", line 56, in _validar_stock
+    raise StockInsuficienteException(disponible=stock_actual, solicitado=cantidad)
+          │                                     │                        └ 999999
+          │                                     └ 54
+          └ <class 'app.modules.inventario.exceptions.stock_insuficiente_exception.StockInsuficienteException'>
+
+app.modules.inventario.exceptions.stock_insuficiente_exception.StockInsuficienteException: Stock insuficiente. Disponible: 54, solicitado: 999999.
+2026-08-08 15:07:36.422 | SUCCESS  | app.modules.ventas.services.venta_service:crear_venta:170 - Venta V-2026-0001 creada correctamente.
+2026-08-08 15:08:45.793 | INFO     | app.modules.inventario.services.inventario_service:registrar_salida:151 - Registrando salida. Producto=1, Cantidad=2
+2026-08-08 15:08:45.794 | SUCCESS  | app.modules.inventario.services.inventario_service:registrar_salida:191 - Salida registrada correctamente. Producto=1, Stock=52
+2026-08-08 15:08:45.958 | SUCCESS  | app.modules.ventas.services.venta_service:confirmar_venta:201 - Venta V-2026-0001 confirmada correctamente.
