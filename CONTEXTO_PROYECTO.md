@@ -452,40 +452,35 @@ Incluye creación, confirmación y consultas por ID y proveedor.
 
 ## Ventas
 
-Implementado a nivel de dominio y parcialmente expuesto por API REST.
+Implementado y expuesto por API REST.
 
-Incluye creación, confirmación, reporte de productos más vendidos y consulta por ID pendiente de validación final.
+Incluye creación, confirmación, reporte de productos más vendidos y consulta por ID.
 
 ---
 
 ## Analytics
 
-Implementado.
+Implementado y expuesto por API REST.
 
-Incluye cálculos iniciales.
+Incluye cálculos iniciales, dashboard general, rotación de inventarios, clasificación ABC de productos, y compras y ventas acumuladas por mes.
 
 ---
 
 ## Machine Learning
 
-Muy avanzado.
-
-Implementado:
+Implementado y expuesto por API REST.
 
 * Dataset Builder
 * Feature Engineering
 * Entrenamiento
-* Predictor
-* Motor de recomendaciones
-* Detección de exceso
-* Detección de riesgo de quiebre
-* Cobertura de inventario
+* Predictor de demanda por producto y fecha
+* Motor de recomendaciones de compra inteligente
+* Detección de exceso y riesgo de quiebre
+* Cobertura de inventario en días
 
-Validado mediante script:
-
-```bash
-python -m scripts.recomendar_compras
-```
+Validado mediante scripts:
+* `python -m scripts.recomendar_compras`
+* `python -m scripts.predecir_demanda`
 
 ---
 
@@ -796,31 +791,47 @@ Al confirmar una compra se registran automáticamente entradas en Inventario. Ta
 
 Implementado y validado:
 
+## Ventas — completado
+
 ```text
 POST  /ventas
 PATCH /ventas/{venta_id}/confirmar
 GET   /ventas/reportes/productos-mas-vendidos
-```
+GET   /ventas/{venta_id}
 
-Pendiente de validación final:
 
-```text
-GET /ventas/{venta_id}
-```
 
-Al confirmar una venta se registra una salida en Inventario. Se validaron documentos duplicados, confirmaciones repetidas y stock insuficiente con respuestas controladas.
+Analytics mediante API REST.
+
+  GET /analytics/dashboard
+  GET /analytics/ventas-mes
+  GET /analytics/compras-mes
+  GET /analytics/rotacion
+  GET /analytics/abc
+
+
+Motor Inteligente y predicciones de Machine Learning mediante API REST.
+
+  GET /ml/prediccion
+  GET /ml/recomendaciones
+
+
 
 ---
 
+### Bloque 3: Limpiar Pendientes Recomendados (Sección 11)
+
+Busca la Sección 11 (líneas 815 a 826) y reemplázala por los pendientes actuales del proyecto:
+
+```markdown
 # 11. Pendientes recomendados
 
-1. Validar `GET /ventas/{venta_id}` con una venta existente y una inexistente (`404`).
-2. Decidir e implementar consultas adicionales de Ventas y Compras si son necesarias (por ejemplo, listados o filtros).
-3. Exponer Analytics mediante API REST.
-4. Exponer el Motor Inteligente y predicciones de Machine Learning mediante API REST.
-5. Añadir pruebas automatizadas unitarias y de integración para los endpoints ya implementados.
-6. Incorporar autenticación y autorización.
-7. Desarrollar un Dashboard o frontend; la tecnología queda por definir.
+1. Decidir e implementar consultas adicionales de Ventas y Compras si son necesarias (por ejemplo, listados detallados con filtros).
+2. Añadir pruebas automatizadas unitarias y de integración para todos los endpoints ya implementados.
+3. Incorporar autenticación y autorización (login y tokens JWT para proteger endpoints).
+4. Desarrollar un Dashboard o interfaz frontend (tecnología a definir).
+
+---
 
 ---
 
@@ -881,14 +892,14 @@ Sprints completados:
 * Sprint 11.2: consultas de Compras.
 * Sprint 12.1: creación y confirmación de Ventas.
 * Sprint 12.2: reporte de productos más vendidos.
+* Sprint 12.3: endpoint de consulta de Ventas por ID validado.
+* Sprint 13.1: endpoints de Analytics expuestos en la API REST.
+* Sprint 13.2: endpoints de Machine Learning expuestos en la API REST y corrección en la firma de predicción de demanda de `MLService`.
 
 Sprint actual:
+* Planificación e inicio de pruebas automatizadas con `pytest`.
 
-* Sprint 12.3: consulta de Ventas por ID; endpoint implementado, pendiente de validación final.
-
-Pendientes de la Fase 9:
-
-* terminar la consulta de Ventas por ID;
-* definir consultas adicionales de Compras y Ventas si el alcance lo requiere;
-* exponer Analytics y Machine Learning mediante API;
-* automatizar pruebas y añadir autenticación/autorización.
+Pendientes del proyecto:
+* decidir consultas adicionales de Compras y Ventas si el alcance lo requiere;
+* automatizar pruebas de endpoints;
+* añadir autenticación/autorización.
