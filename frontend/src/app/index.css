@@ -1,7 +1,3 @@
-* {
-  box-sizing: border-box;
-}
-
 html,
 body,
 #root {
@@ -12,9 +8,7 @@ body,
 body {
   font-family:
     Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
+    Roboto,
+    Arial,
     sans-serif;
 }
