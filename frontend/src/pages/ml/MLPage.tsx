@@ -1,17 +1,17 @@
 import { Box, Typography } from "@mui/material";
 
-function DashboardPage() {
+function MLPage() {
   return (
     <Box>
       <Typography variant="h4">
-        Dashboard
+        Machine Learning
       </Typography>
 
       <Typography color="text.secondary">
-        Resumen general del sistema.
+        Predicciones y recomendaciones inteligentes.
       </Typography>
     </Box>
   );
 }
 
-export default DashboardPage;
+export default MLPage;

@@ -1,17 +1,17 @@
 import { Box, Typography } from "@mui/material";
 
-function DashboardPage() {
+function LoginPage() {
   return (
     <Box>
       <Typography variant="h4">
-        Dashboard
+        Iniciar sesión
       </Typography>
 
       <Typography color="text.secondary">
-        Resumen general del sistema.
+        Acceso al sistema.
       </Typography>
     </Box>
   );
 }
 
-export default DashboardPage;
+export default LoginPage;

@@ -1,17 +1,17 @@
 import { Box, Typography } from "@mui/material";
 
-function DashboardPage() {
+function ProductosPage() {
   return (
     <Box>
       <Typography variant="h4">
-        Dashboard
+        Productos
       </Typography>
 
       <Typography color="text.secondary">
-        Resumen general del sistema.
+        Gestión de productos.
       </Typography>
     </Box>
   );
 }
 
-export default DashboardPage;
+export default ProductosPage;

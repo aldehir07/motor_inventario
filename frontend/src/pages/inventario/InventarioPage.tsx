@@ -1,17 +1,17 @@
 import { Box, Typography } from "@mui/material";
 
-function DashboardPage() {
+function InventarioPage() {
   return (
     <Box>
       <Typography variant="h4">
-        Dashboard
+        Inventario
       </Typography>
 
       <Typography color="text.secondary">
-        Resumen general del sistema.
+        Gestión y movimientos de inventario.
       </Typography>
     </Box>
   );
 }
 
-export default DashboardPage;
+export default InventarioPage;
