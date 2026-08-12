@@ -3,6 +3,8 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, status
 
 from app.api.dependencies.inventario import get_inventario_service
+from app.api.dependencies.auth import require_roles
+from app.modules.usuarios.enums.rol_usuario import RolUsuario
 from app.api.schemas.api_response import ApiResponse
 from app.api.schemas.inventario_response import InventarioResponse
 from app.api.schemas.movimiento_inventario_request import (
@@ -36,7 +38,10 @@ router = APIRouter(
     "/entradas",
     response_model=ApiResponse[InventarioResponse],
     status_code=status.HTTP_201_CREATED,
-    summary="Registrar entrada de inventario"
+    summary="Registrar entrada de inventario",
+    dependencies=[
+        Depends(require_roles({RolUsuario.ADMIN}))
+    ],
 )
 def registrar_entrada(
     request: EntradaInventarioRequest,
@@ -60,6 +65,9 @@ def registrar_entrada(
     response_model=ApiResponse[InventarioResponse],
     status_code=status.HTTP_200_OK,
     summary="Registrar salida de inventario",
+    dependencies=[
+        Depends(require_roles({RolUsuario.ADMIN}))
+    ],
 )
 def registrar_salida(
     request: SalidaInventarioRequest,
@@ -83,6 +91,9 @@ def registrar_salida(
     response_model=ApiResponse[InventarioResponse],
     status_code=status.HTTP_200_OK,
     summary="Ajustar stock de inventario",
+    dependencies=[
+        Depends(require_roles({RolUsuario.ADMIN}))
+    ],
 )
 def ajustar_stock(
     request: AjusteStockRequest,

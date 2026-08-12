@@ -17,6 +17,7 @@ from app.modules.compras.models.compra import Compra
 from app.modules.compras.models.compra_detalle import CompraDetalle
 from app.modules.ventas.models.venta import Venta
 from app.modules.ventas.models.venta_detalle import VentaDetalle
+from app.modules.usuarios.models.usuario import Usuario
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

@@ -3,6 +3,8 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, status
 
 from app.api.dependencies.ventas import get_venta_service
+from app.api.dependencies.auth import require_roles
+from app.modules.usuarios.enums.rol_usuario import RolUsuario
 from app.api.schemas.api_response import ApiResponse
 from app.api.schemas.venta_create_request import VentaCreateRequest
 from app.api.schemas.venta_response import VentaResponse
@@ -47,6 +49,9 @@ def crear_venta(
     response_model=ApiResponse[VentaResponse],
     status_code=status.HTTP_200_OK,
     summary="Confirmar venta",
+    dependencies=[
+        Depends(require_roles({RolUsuario.ADMIN}))
+    ],
 )
 def confirmar_venta(
     venta_id: int,

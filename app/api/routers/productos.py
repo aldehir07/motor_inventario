@@ -25,6 +25,8 @@ from app.modules.catalogo.schemas.producto_schema import (
 from app.api.dependencies.catalogo import (
     get_catalogo_service,
 )
+from app.api.dependencies.auth import require_roles
+from app.modules.usuarios.enums.rol_usuario import RolUsuario
 from app.api.utils.responses import success_response
 from app.api.schemas.api_response import ApiResponse
 
@@ -110,6 +112,9 @@ def obtener_productor(
     status_code=status.HTTP_201_CREATED,
     summary="Crear producto",
     description="Registra un nuevo producto en el catálogo.",
+    dependencies=[
+        Depends(require_roles({RolUsuario.ADMIN}))
+    ],
 )
 def crear_producto(
 
@@ -139,6 +144,9 @@ def crear_producto(
     status_code=status.HTTP_200_OK,
     summary="Actualizar producto",
     description="Actualiza la información de un producto.",
+    dependencies=[
+        Depends(require_roles({RolUsuario.ADMIN}))
+    ],
 
 )
 def actualizar_producto(
@@ -174,6 +182,9 @@ def actualizar_producto(
     status_code=status.HTTP_200_OK,
     summary="Desactivar producto",
     description="Desactiva lógicamente un producto.",
+    dependencies=[
+        Depends(require_roles({RolUsuario.ADMIN}))
+    ],
 )
 def desactivar_producto(
 

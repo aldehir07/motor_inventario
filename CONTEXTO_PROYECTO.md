@@ -96,6 +96,8 @@ app/api/routers/
 
 Actualmente existen:
 
+* auth.py
+* usuarios.py
 * productos.py
 * inventario.py
 * compras.py
@@ -224,7 +226,9 @@ app/
 │   │
 │   ├── analytics/
 │   │
-│   └── ml/
+│   ├── ml/
+│   │
+│   └── usuarios/
 │
 └── shared/
 ```
@@ -828,7 +832,7 @@ Busca la Sección 11 (líneas 815 a 826) y reemplázala por los pendientes actua
 
 1. Decidir e implementar consultas adicionales de Ventas y Compras si son necesarias (por ejemplo, listados detallados con filtros).
 2. Añadir pruebas automatizadas unitarias y de integración para todos los endpoints ya implementados.
-3. Incorporar autenticación y autorización (login y tokens JWT para proteger endpoints).
+3. ~~Incorporar autenticación y autorización (login y tokens JWT para proteger endpoints).~~ Completado — ver Sección 14.
 4. Desarrollar un Dashboard o interfaz frontend (tecnología a definir).
 
 ---
@@ -896,10 +900,107 @@ Sprints completados:
 * Sprint 13.1: endpoints de Analytics expuestos en la API REST.
 * Sprint 13.2: endpoints de Machine Learning expuestos en la API REST y corrección en la firma de predicción de demanda de `MLService`.
 
-Sprint actual:
-* Planificación e inicio de pruebas automatizadas con `pytest`.
 
-Pendientes del proyecto:
-* decidir consultas adicionales de Compras y Ventas si el alcance lo requiere;
-* automatizar pruebas de endpoints;
-* añadir autenticación/autorización.
+---
+
+# 14. Autenticación y Autorización
+
+Completada la primera versión de autenticación basada en tokens JWT.
+
+## Tecnologías
+
+* `PyJWT` para creación y validación de tokens.
+* `pwdlib` + `argon2-cffi` para hashing de contraseñas (Argon2id).
+
+## Módulo Usuarios
+
+Ubicación:
+
+```text
+app/modules/usuarios/
+```
+
+Contiene:
+
+* `enums/rol_usuario.py` — `RolUsuario` (ADMIN, USUARIO).
+* `exceptions/` — `CredencialesInvalidasException`, `TokenInvalidoException`, `UsuarioInactivoException`, `AccesoDenegadoException`.
+* `models/usuario.py` — tabla `usuarios`.
+* `repositories/usuario_repository.py` — acceso a datos.
+* `value_objects/password.py` — hash y verificación Argon2id.
+* `services/token_service.py` — creación y decodificación JWT.
+* `services/auth_service.py` — autenticación de usuarios.
+* `services/usuario_service.py` — CRUD de usuarios.
+* `schemas/usuario_schema.py` — schemas del dominio.
+
+## Endpoints
+
+```text
+POST /auth/login      # público — devuelve access token JWT + datos del usuario
+GET  /auth/me         # autenticado — información del usuario actual
+GET    /usuarios              # solo ADMIN
+GET    /usuarios/{id}         # solo ADMIN
+POST   /usuarios              # solo ADMIN
+PUT    /usuarios/{id}         # solo ADMIN
+PATCH  /usuarios/{id}/desactivar  # solo ADMIN
+```
+
+## Protección de endpoints
+
+Todos los routers (excepto `health` y `auth/login`) exigen autenticación:
+
+* Se aplica mediante `dependencies=[Depends(get_current_user)]` al registrar cada router en `app/api/main.py`.
+* Swagger dispone del botón *Authorize* (header `Authorization: Bearer <token>`).
+
+Restricciones por rol (solo ADMIN):
+
+* Crear, actualizar y desactivar productos.
+* Entradas, salidas y ajustes de inventario.
+* Confirmar compras y ventas.
+* Endpoints de Analytics.
+* Endpoints de Machine Learning.
+* Gestión de usuarios.
+
+Dependencias ubicadas en:
+
+```text
+app/api/dependencies/auth.py
+app/api/dependencies/usuarios.py
+```
+
+## Manejo de errores
+
+Nuevos handlers en `app/api/exceptions/handlers.py`:
+
+* 401 — credenciales inválidas / token inválido o expirado.
+* 403 — usuario inactivo / sin el rol requerido.
+
+## Configuración
+
+Variables de entorno:
+
+```env
+JWT_SECRET_KEY=clave_secreta_para_firma_jwt_debe_tener_al_menos_32_bytes
+JWT_ALGORITHM=HS256
+JWT_ACCESS_TOKEN_EXPIRE_MINUTES=30
+ADMIN_EMAIL=admin@sistema.com
+ADMIN_PASSWORD=...
+```
+
+## Base de datos y migraciones
+
+* Tabla `usuarios` + enum PostgreSQL `rolusuario`.
+* Revisión Alembic: `89cc0911a465_crear_modulo_usuarios`.
+* Seeder del administrador inicial:
+
+```bash
+python -m scripts.seed_usuario_admin
+```
+
+## Pruebas
+
+* `tests/conftest.py` — fixture con SQLite en memoria y override de `get_db`.
+* `tests/test_auth.py` — 11 pruebas: login exitoso, credenciales incorrectas, usuario inactivo, endpoint sin token (401), token inválido, `/auth/me`, rol requerido (403) y usuario duplicado (409).
+
+```bash
+pytest tests/
+```

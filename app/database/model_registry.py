@@ -31,3 +31,8 @@ from app.modules.compras.models.compra_detalle import CompraDetalle
 # ==========================
 from app.modules.ventas.models.venta import Venta
 from app.modules.ventas.models.venta_detalle import VentaDetalle
+
+# ==========================
+# Usuarios
+# ==========================
+from app.modules.usuarios.models.usuario import Usuario

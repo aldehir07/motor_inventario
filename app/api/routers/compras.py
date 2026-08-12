@@ -3,6 +3,8 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, status, Query
 
 from app.api.dependencies.compras import get_compra_service
+from app.api.dependencies.auth import require_roles
+from app.modules.usuarios.enums.rol_usuario import RolUsuario
 from app.api.schemas.api_response import ApiResponse
 from app.api.schemas.compra_create_request import (
     CompraCreateRequest,
@@ -48,6 +50,9 @@ def crear_compra(
     response_model=ApiResponse[CompraResponse],
     status_code=status.HTTP_200_OK,
     summary="Confirmar compra",
+    dependencies=[
+        Depends(require_roles({RolUsuario.ADMIN}))
+    ],
 )
 def confirmar_compra(
     compra_id: int,

@@ -12,6 +12,19 @@ from app.shared.exceptions.conflict_exception import (
     ConflictException,
 )
 
+from app.modules.usuarios.exceptions.acceso_denegado_exception import (
+    AccesoDenegadoException,
+)
+from app.modules.usuarios.exceptions.credenciales_invalidas_exception import (
+    CredencialesInvalidasException,
+)
+from app.modules.usuarios.exceptions.token_invalido_exception import (
+    TokenInvalidoException,
+)
+from app.modules.usuarios.exceptions.usuario_inactivo_exception import (
+    UsuarioInactivoException,
+)
+
 
 async def generic_exception_handler(
     request: Request,
@@ -87,6 +100,62 @@ async def conflict_exception_handler(
         content={
             "success": False,
             "error": "Conflict",
+            "message": str(exc),
+        },
+    )
+
+
+async def credenciales_invalidas_exception_handler(
+    request: Request,
+    exc: CredencialesInvalidasException,
+):
+    return JSONResponse(
+        status_code=401,
+        content={
+            "success": False,
+            "error": "Unauthorized",
+            "message": str(exc),
+        },
+    )
+
+
+async def token_invalido_exception_handler(
+    request: Request,
+    exc: TokenInvalidoException,
+):
+    return JSONResponse(
+        status_code=401,
+        content={
+            "success": False,
+            "error": "Unauthorized",
+            "message": str(exc),
+        },
+    )
+
+
+async def usuario_inactivo_exception_handler(
+    request: Request,
+    exc: UsuarioInactivoException,
+):
+    return JSONResponse(
+        status_code=403,
+        content={
+            "success": False,
+            "error": "Forbidden",
+            "message": str(exc),
+        },
+    )
+
+
+async def acceso_denegado_exception_handler(
+    request: Request,
+    exc: AccesoDenegadoException,
+):
+    return JSONResponse(
+        status_code=403,
+        content={
+            "success": False,
+            "error": "Forbidden",
             "message": str(exc),
         },
     )
