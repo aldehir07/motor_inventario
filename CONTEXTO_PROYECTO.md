@@ -1004,3 +1004,74 @@ python -m scripts.seed_usuario_admin
 ```bash
 pytest tests/
 ```
+
+---
+
+# 15. Autenticación en el Frontend
+
+Implementada la integración del frontend (React + Vite + MUI + TanStack Query) con la autenticación del backend.
+
+## Motivación
+
+Los endpoints ahora exigen token JWT. Antes de esta integración, el frontend no enviaba el token, por lo que cualquier petición protegida (por ejemplo, `GET /productos`) devolvía `401 Unauthorized`.
+
+## Flujo implementado
+
+1. `POST /auth/login` devuelve `access_token` y datos del usuario.
+2. El token y el usuario se guardan en `localStorage`.
+3. Un interceptor de axios adjunta `Authorization: Bearer <token>` a cada petición.
+4. Si el backend responde `401`, el interceptor limpia la sesión y redirige a `/login`.
+5. Al cargar la app, si existe token, se valida con `GET /auth/me` para restaurar la sesión.
+
+## Archivos
+
+### Nuevos
+
+```text
+frontend/src/
+├── features/auth/
+│   ├── types/auth.ts              # Usuario, LoginRequest, LoginResponse
+│   ├── services/auth.service.ts   # login(), obtenerUsuarioActual(), cerrarSesion()
+│   ├── authContext.ts             # Contexto de autenticación
+│   ├── AuthProvider.tsx           # Proveedor: estado global + restauración de sesión
+│   └── hooks/useAuth.ts           # Hook useAuth()
+├── services/auth/token.ts         # Persistencia en localStorage
+└── routes/ProtectedRoute.tsx      # Redirige a /login si no hay sesión
+```
+
+### Modificados
+
+```text
+frontend/src/
+├── services/api/client.ts         # Interceptor de autorización y manejo de 401
+├── pages/LoginPage.tsx            # Formulario real de email/contraseña (MUI)
+├── pages/DashboardPage.tsx        # Muestra usuario/rol + botón "Cerrar sesión"
+├── routes/AppRoutes.tsx           # Rutas protegidas con ProtectedRoute
+└── App.tsx                        # Envuelve la app con AuthProvider
+```
+
+## Comportamiento
+
+* Sin sesión: cualquier ruta protegida redirige a `/login`.
+* Login exitoso: guarda token y redirige a `/`.
+* `401`: limpia sesión y redirige a `/login` (token expirado o inválido).
+* `403`: los usuarios con rol `USUARIO` no pueden acceder a endpoints de solo-ADMIN.
+* El token expira según `JWT_ACCESS_TOKEN_EXPIRE_MINUTES` (30 min por defecto).
+
+## Cómo ejecutar
+
+```bash
+# Backend
+.venv/Scripts/python.exe -m uvicorn app.api.main:app --reload
+
+# Frontend
+cd frontend && npm run dev
+```
+
+Acceso en `http://localhost:5173` (redirige a `/login`). Credenciales iniciales: `admin@sistema.com` / `Admin12345`.
+
+## Notas de configuración
+
+* La URL del backend se define en `frontend/.env` mediante `VITE_API_URL` (por defecto `http://127.0.0.1:8000`).
+* CORS en el backend ya permite los orígenes `http://localhost:5173` y `http://127.0.0.1:5173`.
+* Verificación: `npm run build` (tsc + vite) y `npm run lint` (oxlint) sin errores.
