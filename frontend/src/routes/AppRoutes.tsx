@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 
 import DashboardPage from "../pages/DashboardPage";
 import LoginPage from "../pages/LoginPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 import ProductosPage from "../pages/productos/ProductosPage";
 import InventarioPage from "../pages/inventario/InventarioPage";
@@ -15,36 +16,67 @@ function AppRoutes() {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
 
-      <Route path="/" element={<DashboardPage />} />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/productos"
-        element={<ProductosPage />}
+        element={
+          <ProtectedRoute>
+            <ProductosPage />
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path="/inventario"
-        element={<InventarioPage />}
+        element={
+          <ProtectedRoute>
+            <InventarioPage />
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path="/compras"
-        element={<ComprasPage />}
+        element={
+          <ProtectedRoute>
+            <ComprasPage />
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path="/ventas"
-        element={<VentasPage />}
+        element={
+          <ProtectedRoute>
+            <VentasPage />
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path="/analytics"
-        element={<AnalyticsPage />}
+        element={
+          <ProtectedRoute>
+            <AnalyticsPage />
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path="/ml"
-        element={<MLPage />}
+        element={
+          <ProtectedRoute>
+            <MLPage />
+          </ProtectedRoute>
+        }
       />
 
       <Route
