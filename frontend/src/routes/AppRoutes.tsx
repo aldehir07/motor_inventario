@@ -1,8 +1,9 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import DashboardPage from "../pages/DashboardPage";
+import MainLayout from "../layouts/MainLayout";
+
 import LoginPage from "../pages/LoginPage";
-import ProtectedRoute from "./ProtectedRoute";
+import DashboardPage from "../pages/DashboardPage";
 
 import ProductosPage from "../pages/productos/ProductosPage";
 import InventarioPage from "../pages/inventario/InventarioPage";
@@ -14,70 +15,47 @@ import MLPage from "../pages/ml/MLPage";
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-
       <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <DashboardPage />
-          </ProtectedRoute>
-        }
+        path="/login"
+        element={<LoginPage />}
       />
 
-      <Route
-        path="/productos"
-        element={
-          <ProtectedRoute>
-            <ProductosPage />
-          </ProtectedRoute>
-        }
-      />
+      <Route element={<MainLayout />}>
+        <Route
+          path="/"
+          element={<DashboardPage />}
+        />
 
-      <Route
-        path="/inventario"
-        element={
-          <ProtectedRoute>
-            <InventarioPage />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/productos"
+          element={<ProductosPage />}
+        />
 
-      <Route
-        path="/compras"
-        element={
-          <ProtectedRoute>
-            <ComprasPage />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/inventario"
+          element={<InventarioPage />}
+        />
 
-      <Route
-        path="/ventas"
-        element={
-          <ProtectedRoute>
-            <VentasPage />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/compras"
+          element={<ComprasPage />}
+        />
 
-      <Route
-        path="/analytics"
-        element={
-          <ProtectedRoute>
-            <AnalyticsPage />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/ventas"
+          element={<VentasPage />}
+        />
 
-      <Route
-        path="/ml"
-        element={
-          <ProtectedRoute>
-            <MLPage />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/analytics"
+          element={<AnalyticsPage />}
+        />
+
+        <Route
+          path="/ml"
+          element={<MLPage />}
+        />
+      </Route>
 
       <Route
         path="*"
