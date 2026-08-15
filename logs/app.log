@@ -634,3 +634,146 @@ app.modules.inventario.exceptions.stock_insuficiente_exception.StockInsuficiente
 2026-08-11 12:26:21.202 | WARNING  | app.modules.usuarios.services.auth_service:autenticar:42 - Credenciales inválidas para 'admin@sistema.com'
 2026-08-11 12:28:54.333 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
 2026-08-11 12:28:54.399 | WARNING  | app.modules.usuarios.services.auth_service:autenticar:42 - Credenciales inválidas para 'admin@sistema.com'
+2026-08-12 12:07:56.679 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@test.com'
+2026-08-12 12:07:57.120 | WARNING  | app.modules.usuarios.services.auth_service:autenticar:42 - Credenciales inválidas para 'admin@test.com'
+2026-08-12 12:09:16.291 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-12 12:09:16.472 | WARNING  | app.modules.usuarios.services.auth_service:autenticar:42 - Credenciales inválidas para 'admin@sistema.com'
+2026-08-12 12:10:20.869 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-12 12:10:20.926 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'
+2026-08-12 12:22:29.017 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-12 12:22:29.399 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'
+2026-08-14 12:57:00.810 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-14 12:57:01.377 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'
+2026-08-14 13:27:42.339 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-14 13:27:42.399 | WARNING  | app.modules.usuarios.services.auth_service:autenticar:42 - Credenciales inválidas para 'admin@sistema.com'
+2026-08-14 13:27:43.771 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-14 13:27:43.830 | WARNING  | app.modules.usuarios.services.auth_service:autenticar:42 - Credenciales inválidas para 'admin@sistema.com'
+2026-08-14 13:27:59.841 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-14 13:27:59.902 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'
+2026-08-14 14:38:16.572 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-14 14:38:16.643 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'
+2026-08-14 21:28:39.936 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-14 21:28:40.561 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'
+2026-08-14 21:29:44.191 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-14 21:29:44.250 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'
+2026-08-14 22:01:33.784 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-14 22:01:33.844 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'
+2026-08-14 22:07:28.092 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-14 22:07:28.151 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'
+2026-08-14 22:08:09.340 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-14 22:08:09.405 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'
+2026-08-14 22:10:10.583 | INFO     | app.modules.inventario.services.inventario_service:ajustar_stock:209 - Ajustando stock. Producto=1, Nuevo Stock=10
+2026-08-14 22:10:10.683 | SUCCESS  | app.modules.inventario.services.inventario_service:ajustar_stock:251 - Stock ajustado correctamente. Producto=1, Stock=10
+2026-08-14 22:19:40.621 | SUCCESS  | app.modules.ventas.services.venta_service:crear_venta:170 - Venta VTA-2026-002 creada correctamente.
+2026-08-14 22:20:16.605 | INFO     | app.modules.inventario.services.inventario_service:registrar_salida:151 - Registrando salida. Producto=2, Cantidad=1
+2026-08-14 22:20:16.607 | ERROR    | app.modules.inventario.services.inventario_service:registrar_salida:202 - Error registrando salida: No existe un producto con ID 2.
+Traceback (most recent call last):
+
+  File "C:\Python313\Lib\threading.py", line 1014, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001D6BF2B0040>
+    └ <WorkerThread(AnyIO worker thread, started 4308)>
+  File "C:\Python313\Lib\threading.py", line 1043, in _bootstrap_inner
+    self.run()
+    │    └ <function WorkerThread.run at 0x000001D6DD0423E0>
+    └ <WorkerThread(AnyIO worker thread, started 4308)>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             │       │   │      └ ()
+             │       │   └ functools.partial(<function confirmar_venta at 0x000001D6C4DE8E00>, service=<app.modules.ventas.services.venta_service.VentaS...
+             │       └ <method 'run' of '_contextvars.Context' objects>
+             └ <_contextvars.Context object at 0x000001D6DD3693C0>
+
+  File "D:\Programando-2025\motor_inventario\app\api\routers\ventas.py", line 63, in confirmar_venta
+    venta = service.confirmar_venta(venta_id)
+            │       │               └ 5
+            │       └ <function VentaService.confirmar_venta at 0x000001D6C4DE8A40>
+            └ <app.modules.ventas.services.venta_service.VentaService object at 0x000001D6DD2E7ED0>
+
+  File "D:\Programando-2025\motor_inventario\app\modules\ventas\services\venta_service.py", line 187, in confirmar_venta
+    self.inventario_service.registrar_salida(
+    │    │                  └ <function InventarioService.registrar_salida at 0x000001D6C4CFBC40>
+    │    └ <app.modules.inventario.services.inventario_service.InventarioService object at 0x000001D6DD10A0B0>
+    └ <app.modules.ventas.services.venta_service.VentaService object at 0x000001D6DD2E7ED0>
+
+> File "D:\Programando-2025\motor_inventario\app\modules\inventario\services\inventario_service.py", line 162, in registrar_salida
+    raise ProductoNoEncontradoException(
+          └ <class 'app.modules.inventario.exceptions.producto_no_encontrado_exception.ProductoNoEncontradoException'>
+
+app.modules.inventario.exceptions.producto_no_encontrado_exception.ProductoNoEncontradoException: No existe un producto con ID 2.
+2026-08-14 22:21:15.568 | INFO     | app.modules.inventario.services.inventario_service:registrar_salida:151 - Registrando salida. Producto=2, Cantidad=1
+2026-08-14 22:21:15.570 | ERROR    | app.modules.inventario.services.inventario_service:registrar_salida:202 - Error registrando salida: No existe un producto con ID 2.
+Traceback (most recent call last):
+
+  File "C:\Python313\Lib\threading.py", line 1014, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001D6BF2B0040>
+    └ <WorkerThread(AnyIO worker thread, started 4308)>
+  File "C:\Python313\Lib\threading.py", line 1043, in _bootstrap_inner
+    self.run()
+    │    └ <function WorkerThread.run at 0x000001D6DD0423E0>
+    └ <WorkerThread(AnyIO worker thread, started 4308)>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             │       │   │      └ ()
+             │       │   └ functools.partial(<function confirmar_venta at 0x000001D6C4DE8E00>, service=<app.modules.ventas.services.venta_service.VentaS...
+             │       └ <method 'run' of '_contextvars.Context' objects>
+             └ <_contextvars.Context object at 0x000001D6DD0B0800>
+
+  File "D:\Programando-2025\motor_inventario\app\api\routers\ventas.py", line 63, in confirmar_venta
+    venta = service.confirmar_venta(venta_id)
+            │       │               └ 5
+            │       └ <function VentaService.confirmar_venta at 0x000001D6C4DE8A40>
+            └ <app.modules.ventas.services.venta_service.VentaService object at 0x000001D6DCEDB230>
+
+  File "D:\Programando-2025\motor_inventario\app\modules\ventas\services\venta_service.py", line 187, in confirmar_venta
+    self.inventario_service.registrar_salida(
+    │    │                  └ <function InventarioService.registrar_salida at 0x000001D6C4CFBC40>
+    │    └ <app.modules.inventario.services.inventario_service.InventarioService object at 0x000001D6DD10A120>
+    └ <app.modules.ventas.services.venta_service.VentaService object at 0x000001D6DCEDB230>
+
+> File "D:\Programando-2025\motor_inventario\app\modules\inventario\services\inventario_service.py", line 162, in registrar_salida
+    raise ProductoNoEncontradoException(
+          └ <class 'app.modules.inventario.exceptions.producto_no_encontrado_exception.ProductoNoEncontradoException'>
+
+app.modules.inventario.exceptions.producto_no_encontrado_exception.ProductoNoEncontradoException: No existe un producto con ID 2.
+2026-08-14 22:23:49.631 | INFO     | app.modules.inventario.services.inventario_service:registrar_salida:151 - Registrando salida. Producto=2, Cantidad=1
+2026-08-14 22:23:49.632 | ERROR    | app.modules.inventario.services.inventario_service:registrar_salida:202 - Error registrando salida: No existe un producto con ID 2.
+Traceback (most recent call last):
+
+  File "C:\Python313\Lib\threading.py", line 1014, in _bootstrap
+    self._bootstrap_inner()
+    │    └ <function Thread._bootstrap_inner at 0x000001D6BF2B0040>
+    └ <WorkerThread(AnyIO worker thread, started 4308)>
+  File "C:\Python313\Lib\threading.py", line 1043, in _bootstrap_inner
+    self.run()
+    │    └ <function WorkerThread.run at 0x000001D6DD0423E0>
+    └ <WorkerThread(AnyIO worker thread, started 4308)>
+  File "D:\Programando-2025\motor_inventario\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             │       │   │      └ ()
+             │       │   └ functools.partial(<function confirmar_venta at 0x000001D6C4DE8E00>, service=<app.modules.ventas.services.venta_service.VentaS...
+             │       └ <method 'run' of '_contextvars.Context' objects>
+             └ <_contextvars.Context object at 0x000001D6DD0D3880>
+
+  File "D:\Programando-2025\motor_inventario\app\api\routers\ventas.py", line 63, in confirmar_venta
+    venta = service.confirmar_venta(venta_id)
+            │       │               └ 5
+            │       └ <function VentaService.confirmar_venta at 0x000001D6C4DE8A40>
+            └ <app.modules.ventas.services.venta_service.VentaService object at 0x000001D6DD350B90>
+
+  File "D:\Programando-2025\motor_inventario\app\modules\ventas\services\venta_service.py", line 187, in confirmar_venta
+    self.inventario_service.registrar_salida(
+    │    │                  └ <function InventarioService.registrar_salida at 0x000001D6C4CFBC40>
+    │    └ <app.modules.inventario.services.inventario_service.InventarioService object at 0x000001D6DD7829E0>
+    └ <app.modules.ventas.services.venta_service.VentaService object at 0x000001D6DD350B90>
+
+> File "D:\Programando-2025\motor_inventario\app\modules\inventario\services\inventario_service.py", line 162, in registrar_salida
+    raise ProductoNoEncontradoException(
+          └ <class 'app.modules.inventario.exceptions.producto_no_encontrado_exception.ProductoNoEncontradoException'>
+
+app.modules.inventario.exceptions.producto_no_encontrado_exception.ProductoNoEncontradoException: No existe un producto con ID 2.
+2026-08-15 15:05:05.441 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-15 15:05:07.544 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'
+2026-08-15 15:05:39.676 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-15 15:05:39.740 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'

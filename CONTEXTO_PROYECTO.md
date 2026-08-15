@@ -1,4 +1,5 @@
 # CONTEXTO_PROYECTO.md
+((Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned) ; (& d:\Programando-2025\motor_inventario\.venv\Scripts\Activate.ps1))
 
 # Motor Inteligente para Gestión de Inventarios
 
