@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 
@@ -5,6 +6,17 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 
 function MainLayout() {
+  const [mobileOpen, setMobileOpen] =
+    useState(false);
+
+  const handleMobileMenuOpen = () => {
+    setMobileOpen(true);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileOpen(false);
+  };
+
   return (
     <Box
       sx={{
@@ -13,7 +25,10 @@ function MainLayout() {
         bgcolor: "background.default",
       }}
     >
-      <Sidebar />
+      <Sidebar
+        mobileOpen={mobileOpen}
+        onMobileClose={handleMobileMenuClose}
+      />
 
       <Box
         sx={{
@@ -23,13 +38,18 @@ function MainLayout() {
           minWidth: 0,
         }}
       >
-        <Header />
+        <Header
+          onMenuClick={handleMobileMenuOpen}
+        />
 
         <Box
           component="main"
           sx={{
             flexGrow: 1,
-            p: 3,
+            p: {
+              xs: 2,
+              sm: 3,
+            },
           }}
         >
           <Outlet />

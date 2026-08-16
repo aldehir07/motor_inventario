@@ -777,3 +777,5 @@ app.modules.inventario.exceptions.producto_no_encontrado_exception.ProductoNoEnc
 2026-08-15 15:05:07.544 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'
 2026-08-15 15:05:39.676 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
 2026-08-15 15:05:39.740 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'
+2026-08-15 15:38:50.466 | INFO     | app.modules.usuarios.services.auth_service:autenticar:34 - Intento de autenticación para 'admin@sistema.com'
+2026-08-15 15:38:50.614 | SUCCESS  | app.modules.usuarios.services.auth_service:autenticar:61 - Autenticación exitosa para 'admin@sistema.com'
