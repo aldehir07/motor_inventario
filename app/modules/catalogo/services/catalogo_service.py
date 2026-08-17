@@ -111,11 +111,12 @@ class CatalogoService:
         self,
         pagina: int = 1,
         limite: int = 50,
-    ) -> PaginatedResult[Producto]:
-
+        filtros: ProductoFilter | None = None,
+    ):
         productos, total = self.repository.get_paginated(
             pagina,
             limite,
+            filtros
         )
 
         paginas = math.ceil(total / limite)

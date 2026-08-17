@@ -7,17 +7,30 @@ import type {
   PaginatedResult,
 } from "../../../types/api";
 
+export interface ProductosFiltros {
+  busqueda?: string;
+  categoria_id?: number;
+  proveedor_id?: number;
+  marca_id?: number;
+  unidad_medida_id?: number;
+  activo?: boolean;
+  precio_min?: number;
+  precio_max?: number;
+}
+
+export interface ListarProductosParams
+  extends ProductosFiltros {
+  pagina?: number;
+  limite?: number;
+}
+
 export async function listarProductos(
-  pagina = 1,
-  limite = 20,
+  params: ListarProductosParams = {},
 ): Promise<ApiResponse<PaginatedResult<Producto>>> {
   const response = await apiClient.get<
     ApiResponse<PaginatedResult<Producto>>
   >("/productos", {
-    params: {
-      pagina,
-      limite,
-    },
+    params,
   });
 
   return response.data;

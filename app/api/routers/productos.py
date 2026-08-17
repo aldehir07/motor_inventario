@@ -1,6 +1,7 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Query, status
+from decimal import Decimal
 
 from app.api.schemas.paginated_response import PaginatedResponse
 from app.api.schemas.producto_response import ProductoResponse
@@ -22,6 +23,8 @@ from app.api.schemas.producto_update_request import (
 from app.modules.catalogo.schemas.producto_schema import (
     ProductoUpdate,
 )
+from app.modules.catalogo.schemas.producto_filter import ProductoFilter
+
 from app.api.dependencies.catalogo import (
     get_catalogo_service,
 )
@@ -39,22 +42,15 @@ router = APIRouter(
 )
 
 @router.get(
-
     "",
-
     response_model=ApiResponse[
         PaginatedResponse[ProductoResponse]
     ],
-
-    status_code=200,
-
+    status_code=status.HTTP_200_OK,
     summary="Listar productos",
-
-    description="Obtiene los productos paginados.",
-
+    description="Obtiene los productos paginados y filtrados.",
 )
 def listar_productos(
-
     service: Annotated[
         CatalogoService,
         Depends(get_catalogo_service),
@@ -71,17 +67,67 @@ def listar_productos(
         le=100,
     ),
 
+    busqueda: str | None = Query(
+        default=None,
+        min_length=1,
+    ),
+
+    categoria_id: int | None = Query(
+        default=None,
+        ge=1,
+    ),
+
+    proveedor_id: int | None = Query(
+        default=None,
+        ge=1,
+    ),
+
+    marca_id: int | None = Query(
+        default=None,
+        ge=1,
+    ),
+
+    unidad_medida_id: int | None = Query(
+        default=None,
+        ge=1,
+    ),
+
+    activo: bool | None = Query(
+        default=True,
+    ),
+
+    precio_min: Decimal | None = Query(
+        default=None,
+        ge=0,
+    ),
+
+    precio_max: Decimal | None = Query(
+        default=None,
+        ge=0,
+    ),
 ):
+    filtros = ProductoFilter(
+        busqueda=busqueda,
+        categoria_id=categoria_id,
+        proveedor_id=proveedor_id,
+        marca_id=marca_id,
+        unidad_medida_id=unidad_medida_id,
+        activo=activo,
+        precio_min=precio_min,
+        precio_max=precio_max,
+    )
 
     resultado = service.listar_productos(
         pagina=pagina,
         limite=limite,
+        filtros=filtros,
     )
 
     return success_response(
         resultado,
-        "Productos obtenidos correctamente."
+        "Productos obtenidos correctamente.",
     )
+
 
 @router.get(
     "/{producto_id}",

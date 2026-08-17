@@ -1,11 +1,12 @@
 from decimal import Decimal
 
+# pyrefly: ignore [missing-import]
 from pydantic import BaseModel
 
 
 class ProductoFilter(BaseModel):
 
-    nombre: str | None = None
+    busqueda: str | None = None
 
     categoria_id: int | None = None
 
