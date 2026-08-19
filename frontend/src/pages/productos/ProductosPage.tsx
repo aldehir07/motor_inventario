@@ -1,9 +1,11 @@
 import {
   Alert,
   Box,
+  Button,
   CircularProgress,
   Typography,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 import { useState } from "react";
 
@@ -17,11 +19,20 @@ import ProductoSearchBar from "../../features/productos/components/ProductoSearc
 
 import ProductoFilters from "../../features/productos/components/ProductoFilters";
 
+import { useDebouncedValue } from "../../features/productos/hooks/useDebouncedValue";
+import ProductoCreateDialog from "../../features/productos/components/ProductoCreateDialog";
+import type { Producto } from "../../features/productos/types/producto";
+import ProductoEditDialog from "../../features/productos/components/ProductoEditDialog";
+
 function ProductosPage() {
+  const [openCreateDialog, setOpenCreateDialog] = useState(false);
+  const [productoEditar, setProductoEditar] = useState<Producto | null>(null);
   const [pagina, setPagina] = useState(1);
 
   const [busqueda, setBusqueda] =
     useState("");
+
+  const busquedaDebounced = useDebouncedValue(busqueda, 400,);
 
   const [activo, setActivo] =
     useState<boolean | null>(true);
@@ -31,6 +42,18 @@ function ProductosPage() {
 
   const [precioMax, setPrecioMax] =
     useState("");
+
+  const [categoriaId, setCategoriaId] =
+    useState<number | null>(null);
+
+  const [proveedorId, setProveedorId] =
+    useState<number | null>(null);
+
+  const [marcaId, setMarcaId] =
+    useState<number | null>(null);
+
+  const [unidadMedidaId, setUnidadMedidaId] =
+    useState<number | null>(null);
 
   const limite = 20;
 
@@ -44,7 +67,13 @@ function ProductosPage() {
     pagina,
     limite,
     busqueda:
-      busqueda.trim() || undefined,
+      busquedaDebounced.trim() || undefined,
+
+    categoria_id: categoriaId ?? undefined,
+    proveedor_id: proveedorId ?? undefined,
+    marca_id: marcaId ?? undefined,
+    unidad_medida_id: unidadMedidaId ?? undefined,
+
     activo: activo ?? undefined,
     precio_min:
       precioMin !== ""
@@ -60,6 +89,34 @@ function ProductosPage() {
     value: string,
   ) => {
     setBusqueda(value);
+    setPagina(1);
+  };
+
+  const handleCategoriaChange = (
+    value: number | null,
+  ) => {
+    setCategoriaId(value);
+    setPagina(1);
+  };
+
+  const handleProveedorChange = (
+    value: number | null,
+  ) => {
+    setProveedorId(value);
+    setPagina(1);
+  };
+
+  const handleMarcaChange = (
+    value: number | null,
+  ) => {
+    setMarcaId(value);
+    setPagina(1);
+  };
+
+  const handleUnidadMedidaChange = (
+    value: number | null,
+  ) => {
+    setUnidadMedidaId(value);
     setPagina(1);
   };
 
@@ -82,6 +139,12 @@ function ProductosPage() {
   ) => {
     setPrecioMax(value);
     setPagina(1);
+  };
+
+  const handleEditarProducto = (
+    producto: Producto,
+  ) => {
+    setProductoEditar(producto)
   };
 
   if (isLoading) {
@@ -110,19 +173,35 @@ function ProductosPage() {
 
   return (
     <Box sx={{ p: 4 }}>
-      <Typography
-        variant="h4"
-        gutterBottom
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          mb: 3,
+        }}
       >
-        Productos
-      </Typography>
-
-      <Typography
-        color="text.secondary"
-        sx={{ mb: 3 }}
-      >
-        Productos registrados en el sistema.
-      </Typography>
+        <Box>
+          <Typography
+            variant="h4"
+            gutterBottom
+            sx={{ fontWeight: "bold" }}
+          >
+            Productos
+          </Typography>
+          <Typography color="text.secondary">
+            Productos registrados en el sistema.
+          </Typography>
+        </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<AddIcon />}
+          onClick={() => setOpenCreateDialog(true)}
+        >
+          Nuevo Producto
+        </Button>
+      </Box>
 
       <Box
         sx={{
@@ -143,6 +222,12 @@ function ProductosPage() {
           activo={activo}
           precioMin={precioMin}
           precioMax={precioMax}
+
+          categoriaId={categoriaId}
+          proveedorId={proveedorId}
+          marcaId={marcaId}
+          unidadMedidaId={unidadMedidaId}
+
           onActivoChange={
             handleActivoChange
           }
@@ -151,6 +236,21 @@ function ProductosPage() {
           }
           onPrecioMaxChange={
             handlePrecioMaxChange
+          }
+          onCategoriaChange={
+            handleCategoriaChange
+          }
+
+          onProveedorChange={
+            handleProveedorChange
+          }
+
+          onMarcaChange={
+            handleMarcaChange
+          }
+
+          onUnidadMedidaChange={
+            handleUnidadMedidaChange
           }
         />
       </Box>
@@ -175,6 +275,7 @@ function ProductosPage() {
         <>
           <ProductosTable
             productos={productos}
+            onEditar={handleEditarProducto}
           />
 
           {resultado && (
@@ -188,6 +289,19 @@ function ProductosPage() {
           )}
         </>
       )}
+      <ProductoCreateDialog
+        open={openCreateDialog}
+        onClose={() => setOpenCreateDialog(false)}
+      />
+
+      <ProductoEditDialog
+        open={productoEditar !== null}
+        producto={productoEditar}
+        onClose={() =>
+          setProductoEditar(null)
+        }
+      />
+
     </Box>
   );
 }

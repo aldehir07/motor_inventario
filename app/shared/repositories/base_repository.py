@@ -23,9 +23,29 @@ class BaseRepository(Generic[T]):
         stmt = select(self.model).filter_by(**filters)
         return self.session.scalar(stmt)
 
-    def get_all(self, limit: int = 100, offset: int = 0) -> list[T]:
+    def get_all(
+        self,
+        limit: int | None = 100,
+        offset: int = 0,
+        **filters: Any,
+    ) -> list[T]:
+
         stmt = select(self.model)
-        return list(self.session.scalars(stmt))
+
+        if filters:
+            stmt = stmt.filter_by(**filters)
+
+        stmt = (
+            stmt
+            .offset(offset)
+        )
+
+        if limit is not None:
+            stmt = stmt.limit(limit)    
+
+        return list(
+            self.session.scalars(stmt)
+        )
 
     def exists(self, **filters: Any) -> bool:
         stmt = select(self.model).filter_by(**filters)

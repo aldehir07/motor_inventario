@@ -171,3 +171,25 @@ class CatalogoService:
         )
 
         return producto
+
+    def listar_categorias(self):
+        return self.categoria_repository.get_all(
+            activo=True
+        )
+
+    def listar_marcas(self):
+        return self.marca_repository.get_all(
+            activo=True
+        )
+
+
+    def listar_proveedores(self):
+        return self.proveedor_repository.get_all(
+            activo=True
+        )
+
+
+    def listar_unidades_medida(self):
+        return self.unidad_repository.get_all(
+            activo=True
+        )

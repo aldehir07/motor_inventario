@@ -1,0 +1,21 @@
+10.1  Creación y configuración del frontend
+10.2  Arquitectura del frontend
+10.3  Sistema de diseño y UI
+10.4  Cliente HTTP y comunicación con FastAPI
+10.5  Autenticación y manejo de sesión
+10.6  Layout principal y navegación
+10.7  Dashboard principal
+10.8  Gestión de Productos
+10.9  Gestión de Inventario
+10.10 Kardex y movimientos
+10.11 Gestión de Compras
+10.12 Gestión de Ventas
+10.13 Analytics
+10.14 Machine Learning
+10.15 Manejo global de estados y errores
+10.16 Formularios y validaciones
+10.17 Loading, skeletons y UX
+10.18 Responsive Design
+10.19 Optimización
+10.20 Testing
+10.21 Integración final

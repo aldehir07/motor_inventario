@@ -1,4 +1,5 @@
 import {
+    IconButton,
     Paper,
     Table,
     TableBody,
@@ -6,17 +7,24 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    Tooltip,
     Typography,
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit"
 
 import type { Producto } from "../types/producto";
 
 interface ProductosTableProps {
     productos: Producto[];
+
+    onEditar: (
+        producto: Producto,
+    ) => void;
 }
 
 function ProductosTable({
     productos,
+    onEditar,
 }: ProductosTableProps) {
     return (
         <TableContainer
@@ -57,6 +65,11 @@ function ProductosTable({
                         <TableCell>
                             <strong>Estado</strong>
                         </TableCell>
+
+                        <TableCell>
+                            <strong>Acciones</strong>
+                        </TableCell>
+
                     </TableRow>
                 </TableHead>
 
@@ -101,6 +114,21 @@ function ProductosTable({
                                     : "Inactivo"
                                 }
                             </TableCell>
+
+                            <TableCell>
+                                <Tooltip title="Editar producto">
+                                    <IconButton
+                                        size="small"
+                                        color="primary"
+                                        onClick={() =>
+                                            onEditar(producto)
+                                        }
+                                    >
+                                        <EditIcon fontSize="small" />
+                                    </IconButton>
+                                </Tooltip>
+                            </TableCell>
+
                         </TableRow>
                     ))}
                 </TableBody>

@@ -154,7 +154,7 @@ def obtener_productor(
 
 @router.post(
     "",
-    response_model=ProductoResponse,
+    response_model=ApiResponse[ProductoResponse],
     status_code=status.HTTP_201_CREATED,
     summary="Crear producto",
     description="Registra un nuevo producto en el catálogo.",
@@ -178,8 +178,13 @@ def crear_producto(
 
     )
 
-    return service.crear_producto(
+    producto = service.crear_producto(
         data
+    )
+
+    return success_response(
+        producto,
+        "Producto creado correctamente."
     )
 
 

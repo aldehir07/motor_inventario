@@ -14,6 +14,7 @@ from app.api.routers.compras import router as compras_router
 from app.api.routers.ventas import router as ventas_router
 from app.api.routers.analytics import router as analytics_router
 from app.api.routers.ml import router as ml_router
+from app.api.routers.catalogos import router as catalogo_router
 
 from app.api.exceptions.handlers import (
     duplicate_exception_handler,
@@ -146,6 +147,9 @@ app.include_router(
     dependencies=[
         Depends(get_current_user)
     ],
+)
+app.include_router(
+    catalogo_router
 )
 app.include_router(
     analytics_router,
